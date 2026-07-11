@@ -65,26 +65,38 @@ const SITE_CONFIG = {
   // ============================================================
   // 公開ツール
   // ------------------------------------------------------------
-  // GitHub の公開リポジトリを、あらかじめ全部ここに並べてあります。
+  // ★ この並び順が、そのまま画面の並び順になります（上=最初に表示）。
+  //   古いツールを上に、新しいツールを下に並べてあります。
+  //   並び替えたいときは { } のブロックごと入れ替えてください。
+  //
   //   ・載せたい      → show: true
   //   ・隠したい      → show: false
   //   ・文言を直したい → name / description / tags を書き換える
   //   ・URL を直したい → url を書き換える
   //
   // ★ 新しいリポジトリを作ったとき:
-  //   公開サイトの URL のうしろに ?admin=1 を付けて開くと
-  //   （例: https://mlabpages.github.io/?admin=1 ）、
-  //   「まだ載せていないリポジトリ」と“貼り付け用の1ブロック”が表示されます。
-  //   それをこの tools: [] の中にコピーして show を true にするだけです。
+  //   公開サイトの URL のうしろに ?admin=1 を付けて開くと管理パネルが出ます。
+  //   「サイトに載せる」ボタン → 「反映する」で、この一覧の末尾に自動追加されます。
   // ============================================================
   tools: [
+    // --- 古い順に表示されます ---
     {
       show: true,
-      repo: "face-glowup",
-      name: "今日は、ひとつだけ。",
-      url: "https://mlabpages.github.io/face-glowup/",
-      description: "顔をカメラで写すと垢抜けのヒントを提示するWebアプリ(解析はブラウザ内のみ・写真は送信しない)",
-      tags: ["Webアプリ", "美容"],
+      repo: "class-picker",
+      name: "グループ抽選ツール",
+      url: "https://mlabpages.github.io/class-picker/",
+      description:
+        "授業などでグループ分けをするための抽選サイトです。参加コードでクラスを分け、男女均等での振り分けにも対応します。",
+      tags: ["Webアプリ", "授業支援"],
+    },
+    {
+      show: true,
+      repo: "Thesis-self-check",
+      name: "卒論セルフチェック",
+      url: "https://thesis-self-check.vercel.app",
+      description:
+        "卒業論文の形式（文字数・見出し・引用など）を提出前に自分でチェックできるサイトです。",
+      tags: ["Webアプリ", "卒論支援"],
     },
     {
       show: true,
@@ -97,18 +109,6 @@ const SITE_CONFIG = {
     },
     {
       show: true,
-      repo: "Thesis-self-check",
-      name: "卒論セルフチェック",
-      url: "https://thesis-self-check.vercel.app",
-      description:
-        "卒業論文の形式（文字数・見出し・引用など）を提出前に自分でチェックできるサイトです。",
-      tags: ["Webアプリ", "卒論支援"],
-    },
-
-    // ↓ 以下は今は非表示（show: false）。載せたくなったら true にしてください。
-    //   説明文は実際の中身に合わせて用意済みです（そのまま／お好みで調整）。
-    {
-      show: true,
       repo: "virtual-ride",
       name: "バーチャルライド",
       url: "https://mlabpages.github.io/virtual-ride/",
@@ -117,6 +117,16 @@ const SITE_CONFIG = {
       tags: ["Webアプリ", "運動"],
     },
     {
+      show: true,
+      repo: "face-glowup",
+      name: "今日は、ひとつだけ。",
+      url: "https://mlabpages.github.io/face-glowup/",
+      description: "顔をカメラで写すと垢抜けのヒントを提示するWebアプリ(解析はブラウザ内のみ・写真は送信しない)",
+      tags: ["Webアプリ", "美容"],
+    },
+
+    // ↓ 以下は今は非表示（show: false）。載せたくなったら true にしてください。
+    {
       show: false,
       repo: "BodyResponseResearchTool",
       name: "身体反応リサーチツール",
@@ -124,15 +134,6 @@ const SITE_CONFIG = {
       description:
         "カメラ映像から消費者調査向けの身体反応指標を、端末内で推定する研究用プロトタイプです（利用にはローカル環境での起動が必要）。",
       tags: ["研究ツール", "計測"],
-    },
-    {
-      show: true,
-      repo: "class-picker",
-      name: "グループ抽選ツール",
-      url: "https://mlabpages.github.io/class-picker/",
-      description:
-        "授業などでグループ分けをするための抽選サイトです。参加コードでクラスを分け、男女均等での振り分けにも対応します。",
-      tags: ["Webアプリ", "授業支援"],
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {
