@@ -440,3 +440,19 @@ a:hover { opacity: 0.8; }
   margin-top: 6px; background: #2f6f8f; color: #fff; border: none;
   border-radius: 6px; padding: 4px 12px; font-size: 0.75rem; cursor: pointer;
 }
+.admin-repo .row-btn {
+  float: right; background: #3a4a5d; color: #eef2f6; border: 1px solid #506379;
+  border-radius: 6px; padding: 3px 12px; font-size: 0.75rem; cursor: pointer;
+}
+.admin-repo .row-btn:hover { background: #46586e; }
+.admin-apply {
+  margin-top: 12px; padding: 12px; background: #2a3644; border-radius: 8px;
+}
+.admin-apply-note { margin: 0 0 8px; font-size: 0.78rem; color: #ffd9a0; }
+.apply-btn {
+  width: 100%; background: #2e9e6b; color: #fff; border: none;
+  border-radius: 8px; padding: 9px 12px; font-size: 0.85rem; cursor: pointer; font-weight: 600;
+}
+.apply-btn:hover { background: #37b47b; }
+.admin-apply-steps { margin: 10px 0 0; font-size: 0.74rem; color: #a9b6c4; line-height: 1.7; }
+.admin-fulltext { max-height: 200px; overflow: auto; }
