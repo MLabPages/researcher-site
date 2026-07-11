@@ -334,79 +334,155 @@ async function renderCareer() {
 }
 
 // ---- 管理モード（URL に ?admin=1 を付けたときだけ動く）----
-// 目的: 新しい GitHub リポジトリを作ったとき、「まだ載せていないもの」を
-// 一覧で見せ、data.js に貼り付けるだけのブロックを用意する。
-// 訪問者には出ないので、公開しても問題ありません。
+// ボタンで表示/非表示を切り替え → その場でプレビュー反映。
+// 最後に「反映する」で、書き換え済みの data.js をコピーして GitHub の
+// 編集画面を開く（貼り付けて緑のボタンを押せば公開に反映される）。
+// 鍵（トークン）は使わない安全な方式。訪問者には出ません。
 
 async function renderAdminPanel() {
   if (new URLSearchParams(location.search).get("admin") !== "1") return;
   const user = SITE_CONFIG.githubUser;
   if (!user) return;
 
+  const SITE_REPO = "researcher-site";
+  const EDIT_URL = `https://github.com/${user}/${SITE_REPO}/edit/main/data.js`;
+
   const panel = document.createElement("div");
   panel.className = "admin-panel";
   panel.innerHTML = `<button class="admin-close" title="閉じる">×</button>
     <h3>公開ツール 管理モード</h3>
-    <p class="admin-sub">GitHub の公開リポジトリと data.js を照合中…</p>`;
+    <p class="admin-sub">GitHub の公開リポジトリと data.js を照合中…</p>
+    <div class="admin-rows"></div>
+    <div class="admin-apply" hidden>
+      <p class="admin-apply-note">切り替えはまだこの画面のプレビューだけです。公開サイトに反映するには:</p>
+      <button class="apply-btn" type="button">反映する（コピーして GitHub を開く）</button>
+      <p class="admin-apply-steps">開いたページで:
+        ① 本文をクリック → <b>Ctrl+A</b>（全選択）→ <b>Ctrl+V</b>（貼り付け）
+        ② 右上の緑の <b>Commit changes...</b> → もう一度緑のボタン。
+        十数秒で公開サイトに反映されます。</p>
+    </div>`;
   document.body.appendChild(panel);
   panel.querySelector(".admin-close").onclick = () => panel.remove();
 
+  // 現在の data.js の中身（コメントも含む全文）。ボタン操作でこのテキストを書き換えていく
+  let dataJsText;
   let repos;
   try {
-    const res = await fetch(`https://api.github.com/users/${user}/repos?per_page=100&type=owner&sort=updated`);
-    if (!res.ok) throw new Error(`GitHub API ${res.status}`);
-    repos = (await res.json()).filter((r) => !r.private && !r.fork);
+    const [textRes, apiRes] = await Promise.all([
+      fetch("data.js", { cache: "no-store" }),
+      fetch(`https://api.github.com/users/${user}/repos?per_page=100&type=owner&sort=updated`),
+    ]);
+    if (!textRes.ok || !apiRes.ok) throw new Error("fetch failed");
+    dataJsText = await textRes.text();
+    // このサイト自身のリポジトリは候補から除外する
+    repos = (await apiRes.json()).filter((r) => !r.private && !r.fork && r.name !== SITE_REPO);
   } catch (e) {
     console.error(e);
     panel.querySelector(".admin-sub").textContent =
-      "GitHub の一覧を取得できませんでした（時間をおいて再度お試しください）。";
+      "情報を取得できませんでした（時間をおいて再度お試しください）。";
     return;
   }
 
-  const configByRepo = new Map((SITE_CONFIG.tools || []).map((t) => [t.repo, t]));
   const pagesUrl = (name) => `https://${user.toLowerCase()}.github.io/${name}/`;
+  const reEscape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  let dirty = false;
 
-  const rows = repos
-    .map((r) => {
-      const t = configByRepo.get(r.name);
-      if (t && t.show) {
-        return `<div class="admin-repo"><span class="name">${esc(r.name)}</span>
-          <span class="state-on">● 表示中</span></div>`;
-      }
-      if (t && !t.show) {
-        return `<div class="admin-repo"><span class="name">${esc(r.name)}</span>
-          <span class="state-off">○ 非表示（data.js で show: true にすると出ます）</span></div>`;
-      }
-      // data.js にまだ無いリポジトリ → 貼り付け用ブロックを提示
-      const snippet =
+  // data.js テキスト内の該当ツールの show: を書き換える（コメントはそのまま残る）
+  function setShowInText(repo, value) {
+    const re = new RegExp(`show:\\s*(?:true|false)(\\s*,\\s*\\n\\s*repo:\\s*"${reEscape(repo)}")`);
+    dataJsText = dataJsText.replace(re, `show: ${value}$1`);
+  }
+
+  // 未登録リポジトリのブロックを tools: [ の先頭に挿し込む
+  function addToolToText(entry) {
+    const block =
 `    {
       show: true,
-      repo: "${r.name}",
-      name: "${r.name}",
-      url: "${r.has_pages ? pagesUrl(r.name) : r.html_url}",
-      description: "${(r.description || "").replace(/"/g, "'")}",
+      repo: "${entry.repo}",
+      name: "${entry.name}",
+      url: "${entry.url}",
+      description: "${entry.description}",
       tags: [],
-    },`;
-      return `<div class="admin-repo">
-        <span class="name">${esc(r.name)}</span> <span class="state-new">＋ 未登録</span>
-        <pre>${esc(snippet)}</pre>
-        <button class="copy-btn" type="button">この行をコピー</button></div>`;
-    })
-    .join("");
+    },
+`;
+    dataJsText = dataJsText.replace(/tools:\s*\[\s*\n/, (m) => m + block);
+  }
 
-  panel.querySelector(".admin-sub").innerHTML =
-    "<b>＋ 未登録</b>のブロックを data.js の <code>tools: [</code> の中に貼り付けると載ります。" +
-    "<br>「○ 非表示」は <code>show: true</code> に変えるだけです。";
-  panel.insertAdjacentHTML("beforeend", rows);
+  function markDirty() {
+    dirty = true;
+    panel.querySelector(".admin-apply").hidden = false;
+  }
 
-  panel.querySelectorAll(".copy-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const text = btn.previousElementSibling.textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        btn.textContent = "コピーしました ✓";
-        setTimeout(() => (btn.textContent = "この行をコピー"), 1500);
+  function rowHtml(r) {
+    const t = (SITE_CONFIG.tools || []).find((x) => x.repo === r.name);
+    if (t && t.show) {
+      return `<div class="admin-repo" data-repo="${esc(r.name)}">
+        <span class="name">${esc(t.name)}</span> <span class="state-on">● 表示中</span>
+        <button class="row-btn" data-act="hide" type="button">非表示にする</button></div>`;
+    }
+    if (t) {
+      return `<div class="admin-repo" data-repo="${esc(r.name)}">
+        <span class="name">${esc(t.name)}</span> <span class="state-off">○ 非表示</span>
+        <button class="row-btn" data-act="show" type="button">表示にする</button></div>`;
+    }
+    return `<div class="admin-repo" data-repo="${esc(r.name)}">
+      <span class="name">${esc(r.name)}</span> <span class="state-new">＋ 未登録</span>
+      <button class="row-btn" data-act="add" type="button">サイトに載せる</button></div>`;
+  }
+
+  function renderRows() {
+    panel.querySelector(".admin-rows").innerHTML = repos.map(rowHtml).join("");
+    panel.querySelectorAll(".row-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const repoName = btn.closest(".admin-repo").dataset.repo;
+        const act = btn.dataset.act;
+        const t = (SITE_CONFIG.tools || []).find((x) => x.repo === repoName);
+        if (act === "hide" && t) {
+          t.show = false;
+          setShowInText(repoName, false);
+        } else if (act === "show" && t) {
+          t.show = true;
+          setShowInText(repoName, true);
+        } else if (act === "add") {
+          const r = repos.find((x) => x.name === repoName);
+          const entry = {
+            show: true,
+            repo: r.name,
+            name: r.name,
+            url: r.has_pages ? pagesUrl(r.name) : r.html_url,
+            description: (r.description || "（説明文は data.js で書き換えてください）").replace(/"/g, "'"),
+            tags: [],
+          };
+          SITE_CONFIG.tools.unshift(entry);
+          addToolToText(entry);
+        }
+        renderTools(); // ページ本体を即時プレビュー更新
+        markDirty();
+        renderRows();
       });
     });
+  }
+
+  panel.querySelector(".admin-sub").innerHTML =
+    "ボタンで切り替えると、下のページに<b>その場でプレビュー</b>されます。";
+  renderRows();
+
+  panel.querySelector(".apply-btn").addEventListener("click", async (ev) => {
+    const btn = ev.currentTarget;
+    try {
+      await navigator.clipboard.writeText(dataJsText);
+      btn.textContent = "コピーしました ✓ GitHub を開きます…";
+    } catch (_) {
+      btn.textContent = "コピーできませんでした（下の全文を手動でコピーしてください）";
+      if (!panel.querySelector(".admin-fulltext")) {
+        panel.insertAdjacentHTML(
+          "beforeend",
+          `<pre class="admin-fulltext">${esc(dataJsText)}</pre>`
+        );
+      }
+      return;
+    }
+    window.open(EDIT_URL, "_blank", "noopener");
   });
 }
 
