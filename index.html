@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>牧野 耀|研究とツール公開</title>
+  <meta name="description" content="牧野耀(近畿大学経営学部 准教授)の研究紹介と、研究室で開発したツールの公開ページです。">
+  <!-- ↓ 試し公開用: Google などの検索結果に載せない設定。
+       検索に載せたくなったら、この1行を削除して push してください。 -->
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <p class="hero-kana" id="name-kana"></p>
+        <h1 class="hero-name" id="name-main">&nbsp;</h1>
+        <p class="hero-affiliation" id="affiliation-main"></p>
+        <p class="hero-links" id="profile-links"></p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="site-nav">
+    <div class="container nav-inner" id="nav-links"></div>
+  </nav>
+
+  <main class="container">
+
+    <section id="about" class="section">
+      <div id="research-keywords" class="keyword-list"></div>
+    </section>
+
+    <!-- 以下のセクションは data.js の sectionOrder で並び順・表示/非表示を変えられます -->
+
+    <section id="interests" class="section" data-section="interests" hidden>
+      <h2 id="interests-heading">研究の関心・今後の課題</h2>
+      <p class="section-lead" id="interests-lead" hidden></p>
+      <ul class="interest-list" id="interest-list"></ul>
+    </section>
+
+    <section id="news" class="section" data-section="news">
+      <h2>お知らせ</h2>
+      <ul class="news-list" id="news-list"></ul>
+    </section>
+
+    <section id="tools" class="section" data-section="tools">
+      <h2>公開ツール</h2>
+      <p class="section-lead" id="tools-lead"></p>
+      <div class="tool-grid" id="tool-grid"></div>
+    </section>
+
+    <section id="publications" class="section" data-section="publications">
+      <h2>研究業績</h2>
+      <p class="section-lead">
+        <a href="https://researchmap.jp/" target="_blank" rel="noopener">researchmap</a>
+        の登録内容から自動で取得しています。
+      </p>
+      <div id="publications-body">
+        <p class="loading" id="pub-loading">researchmap から読み込み中…</p>
+      </div>
+    </section>
+
+    <section id="career" class="section" data-section="career">
+      <h2>経歴</h2>
+      <div id="career-body">
+        <p class="loading" id="career-loading">researchmap から読み込み中…</p>
+      </div>
+    </section>
+
+    <section id="contact" class="section" data-section="contact">
+      <h2>連絡先</h2>
+      <div class="contact-card" id="contact-card"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p id="footer-line"></p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

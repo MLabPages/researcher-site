@@ -1,0 +1,442 @@
+/* ============================================================
+   研究者サイトのスタイル。色やサイズはこの :root の変数を
+   書き換えるだけで全体に反映されます。
+   ============================================================ */
+
+:root {
+  --color-bg: #fafaf8;
+  --color-surface: #ffffff;
+  --color-text: #2b2b2b;
+  --color-text-soft: #6b6b6b;
+  --color-accent: #1f4e5f;        /* 見出し・リンクの基調色(深い青緑) */
+  --color-accent-soft: #eaf1f3;   /* 基調色のうすい背景 */
+  --color-border: #e3e2dd;
+  --radius: 10px;
+  --max-width: 860px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI",
+    "Yu Gothic", "Noto Sans JP", system-ui, sans-serif;
+  line-height: 1.75;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+a { color: var(--color-accent); }
+a:hover { opacity: 0.8; }
+
+/* ---- ヘッダー ---- */
+
+.hero {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 48px 0 36px;
+}
+
+.hero-inner {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.hero-kana {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: var(--color-text-soft);
+}
+
+.hero-name {
+  margin: 2px 0 6px;
+  font-size: 1.9rem;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+}
+
+.hero-affiliation {
+  margin: 0 0 8px;
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+}
+
+.hero-links {
+  margin: 0;
+  font-size: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+
+/* ---- ナビゲーション ---- */
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav-inner {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+
+.site-nav a {
+  display: block;
+  padding: 12px 12px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.site-nav a:hover {
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+/* ---- セクション共通 ---- */
+
+.section { padding: 40px 0 8px; }
+
+.section h2 {
+  font-size: 1.25rem;
+  color: var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
+  display: inline-block;
+  padding-bottom: 2px;
+  margin: 0 0 16px;
+  letter-spacing: 0.08em;
+}
+
+.section-lead {
+  margin: -6px 0 18px;
+  font-size: 0.9rem;
+  color: var(--color-text-soft);
+}
+
+.loading { color: var(--color-text-soft); font-size: 0.9rem; }
+
+/* ---- 研究キーワード ---- */
+
+.keyword-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.keyword-chip {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  border-radius: 999px;
+  padding: 3px 14px;
+  font-size: 0.85rem;
+}
+
+/* ---- 研究の関心・今後の課題 ---- */
+
+.interest-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.interest-list li {
+  position: relative;
+  padding: 9px 0 9px 22px;
+  border-bottom: 1px dashed var(--color-border);
+  font-size: 0.95rem;
+}
+
+.interest-list li::before {
+  content: "▸";
+  position: absolute;
+  left: 2px;
+  color: var(--color-accent);
+}
+
+/* ---- お知らせ ---- */
+
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.news-list li {
+  display: flex;
+  gap: 16px;
+  padding: 10px 4px;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.news-date {
+  color: var(--color-text-soft);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+/* ---- ツール ---- */
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.tool-card {
+  display: block;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.tool-card:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+.tool-card h3 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  color: var(--color-accent);
+}
+
+.tool-card h3 .arrow { font-size: 0.85em; }
+
+.tool-card p {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  color: var(--color-text-soft);
+}
+
+.tool-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.tool-tag {
+  font-size: 0.75rem;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  border-radius: 4px;
+  padding: 1px 8px;
+}
+
+/* ---- 研究業績 ---- */
+
+.pub-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.pub-tab {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--color-text-soft);
+  font-family: inherit;
+}
+
+.pub-tab.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.pub-year {
+  font-size: 0.95rem;
+  color: var(--color-text-soft);
+  margin: 20px 0 6px;
+  font-weight: 600;
+}
+
+.pub-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pub-list li {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  font-size: 0.92rem;
+}
+
+.pub-title { font-weight: 600; }
+
+.pub-meta {
+  display: block;
+  color: var(--color-text-soft);
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+.pub-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  background: #fff3df;
+  color: #9a6b1f;
+  border-radius: 4px;
+  padding: 0 6px;
+  margin-left: 6px;
+  vertical-align: 1px;
+}
+
+.pub-doi { font-size: 0.82rem; margin-left: 8px; white-space: nowrap; }
+
+/* ---- 経歴 ---- */
+
+.career-group h3 {
+  font-size: 1rem;
+  margin: 18px 0 8px;
+  color: var(--color-text);
+}
+
+.career-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid var(--color-accent-soft);
+}
+
+.career-list li {
+  position: relative;
+  padding: 4px 0 12px 20px;
+  font-size: 0.92rem;
+}
+
+.career-list li::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 12px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.career-period {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--color-text-soft);
+}
+
+/* ---- 連絡先 ---- */
+
+.contact-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+}
+
+.contact-card p { margin: 0 0 14px; font-size: 0.95rem; }
+
+.contact-button {
+  display: inline-block;
+  background: var(--color-accent);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 10px 32px;
+  font-size: 0.95rem;
+}
+
+.contact-button:hover { opacity: 0.85; }
+
+/* ---- エラー時の代替表示 ---- */
+
+.fallback-card {
+  background: var(--color-accent-soft);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  font-size: 0.9rem;
+}
+
+/* ---- フッター ---- */
+
+.site-footer {
+  margin-top: 48px;
+  padding: 24px 0 32px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.8rem;
+  color: var(--color-text-soft);
+  text-align: center;
+}
+
+/* ---- スマホ ---- */
+
+@media (max-width: 560px) {
+  .hero { padding: 32px 0 24px; }
+  .hero-name { font-size: 1.5rem; }
+  .tool-grid { grid-template-columns: 1fr; }
+  .news-list li { flex-direction: column; gap: 0; }
+}
+
+/* ---- 管理モード（?admin=1 のときだけ表示。訪問者には見えません）---- */
+
+.admin-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: min(420px, calc(100vw - 32px));
+  max-height: 70vh;
+  overflow: auto;
+  background: #1f2733;
+  color: #eef2f6;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  font-size: 0.85rem;
+  z-index: 100;
+}
+
+.admin-panel h3 { margin: 0 0 4px; font-size: 0.95rem; }
+.admin-panel .admin-sub { margin: 0 0 12px; color: #a9b6c4; font-size: 0.78rem; }
+.admin-panel .admin-close {
+  position: absolute; top: 10px; right: 12px;
+  background: none; border: none; color: #a9b6c4; font-size: 1.1rem; cursor: pointer;
+}
+.admin-repo { border-top: 1px solid #33404f; padding: 10px 0; }
+.admin-repo:first-of-type { border-top: none; }
+.admin-repo .name { font-weight: 600; }
+.admin-repo .state-on { color: #7ee0a6; }
+.admin-repo .state-off { color: #f0b862; }
+.admin-repo .state-new { color: #7cc4ff; }
+.admin-panel pre {
+  background: #0f1620; color: #d7e0ea; border-radius: 8px;
+  padding: 8px 10px; margin: 6px 0 0; overflow-x: auto; font-size: 0.72rem;
+  white-space: pre; line-height: 1.5;
+}
+.admin-panel .copy-btn {
+  margin-top: 6px; background: #2f6f8f; color: #fff; border: none;
+  border-radius: 6px; padding: 4px 12px; font-size: 0.75rem; cursor: pointer;
+}
