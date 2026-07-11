@@ -88,6 +88,14 @@ const SITE_CONFIG = {
     },
     {
       show: true,
+      repo: "face-glowup",
+      name: "face-glowup",
+      url: "https://mlabpages.github.io/face-glowup/",
+      description: "顔をカメラで写すと垢抜けのヒントを提示するWebアプリ(解析はブラウザ内のみ・写真は送信しない)",
+      tags: [],
+    },
+    {
+      show: true,
       repo: "reaction-meter",
       name: "リアクションメーター",
       url: "https://mlabpages.github.io/reaction-meter/",
