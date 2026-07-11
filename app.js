@@ -359,7 +359,9 @@ async function renderAdminPanel() {
       <p class="admin-apply-steps">開いたページで:
         ① 本文をクリック → <b>Ctrl+A</b>（全選択）→ <b>Ctrl+V</b>（貼り付け）
         ② 右上の緑の <b>Commit changes...</b> → もう一度緑のボタン。
-        十数秒で公開サイトに反映されます。</p>
+        <br>※反映後も、ブラウザの読み置き（キャッシュ）のせいで<b>最大10分ほど
+        古いまま見える</b>ことがあります。「戻ってしまった」ように見えても
+        反映は済んでいるので、<b>Ctrl+F5</b>（強制再読込）するか少し待ってください。</p>
     </div>`;
   document.body.appendChild(panel);
   panel.querySelector(".admin-close").onclick = () => panel.remove();
@@ -386,6 +388,13 @@ async function renderAdminPanel() {
   const pagesUrl = (name) => `https://${user.toLowerCase()}.github.io/${name}/`;
   const reEscape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   let dirty = false;
+
+  // 状態判定は「毎回取り直した data.js の最新テキスト」で行う。
+  // （ブラウザが古い data.js を覚えていても、二重追加などの事故が起きないように）
+  const inText = (repo) =>
+    new RegExp(`repo:\\s*"${reEscape(repo)}"`).test(dataJsText);
+  const shownInText = (repo) =>
+    new RegExp(`show:\\s*true\\s*,\\s*\\n\\s*repo:\\s*"${reEscape(repo)}"`).test(dataJsText);
 
   // data.js テキスト内の該当ツールの show: を書き換える（コメントはそのまま残る）
   function setShowInText(repo, value) {
@@ -415,18 +424,19 @@ async function renderAdminPanel() {
 
   function rowHtml(r) {
     const t = (SITE_CONFIG.tools || []).find((x) => x.repo === r.name);
-    if (t && t.show) {
+    const label = esc(t?.name || r.name);
+    if (inText(r.name) && shownInText(r.name)) {
       return `<div class="admin-repo" data-repo="${esc(r.name)}">
-        <span class="name">${esc(t.name)}</span> <span class="state-on">● 表示中</span>
+        <span class="name">${label}</span> <span class="state-on">● 表示中</span>
         <button class="row-btn" data-act="hide" type="button">非表示にする</button></div>`;
     }
-    if (t) {
+    if (inText(r.name)) {
       return `<div class="admin-repo" data-repo="${esc(r.name)}">
-        <span class="name">${esc(t.name)}</span> <span class="state-off">○ 非表示</span>
+        <span class="name">${label}</span> <span class="state-off">○ 非表示</span>
         <button class="row-btn" data-act="show" type="button">表示にする</button></div>`;
     }
     return `<div class="admin-repo" data-repo="${esc(r.name)}">
-      <span class="name">${esc(r.name)}</span> <span class="state-new">＋ 未登録</span>
+      <span class="name">${label}</span> <span class="state-new">＋ 未登録</span>
       <button class="row-btn" data-act="add" type="button">サイトに載せる</button></div>`;
   }
 
@@ -437,12 +447,23 @@ async function renderAdminPanel() {
         const repoName = btn.closest(".admin-repo").dataset.repo;
         const act = btn.dataset.act;
         const t = (SITE_CONFIG.tools || []).find((x) => x.repo === repoName);
-        if (act === "hide" && t) {
-          t.show = false;
+        if (act === "hide") {
           setShowInText(repoName, false);
-        } else if (act === "show" && t) {
-          t.show = true;
+          if (t) t.show = false;
+        } else if (act === "show" || (act === "add" && inText(repoName))) {
+          // すでに data.js にある場合は show を切り替えるだけ（二重追加しない）
           setShowInText(repoName, true);
+          if (t) {
+            t.show = true;
+          } else {
+            // 画面プレビュー用の仮エントリ（反映される内容は data.js テキスト側が正）
+            const r = repos.find((x) => x.name === repoName);
+            SITE_CONFIG.tools.unshift({
+              show: true, repo: r.name, name: r.name,
+              url: r.has_pages ? pagesUrl(r.name) : r.html_url,
+              description: r.description || "", tags: [],
+            });
+          }
         } else if (act === "add") {
           const r = repos.find((x) => x.name === repoName);
           const entry = {

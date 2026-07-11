@@ -81,18 +81,10 @@ const SITE_CONFIG = {
     {
       show: true,
       repo: "face-glowup",
-      name: "face-glowup",
+      name: "今日は、ひとつだけ。",
       url: "https://mlabpages.github.io/face-glowup/",
       description: "顔をカメラで写すと垢抜けのヒントを提示するWebアプリ(解析はブラウザ内のみ・写真は送信しない)",
-      tags: [],
-    },
-    {
-      show: true,
-      repo: "face-glowup",
-      name: "face-glowup",
-      url: "https://mlabpages.github.io/face-glowup/",
-      description: "顔をカメラで写すと垢抜けのヒントを提示するWebアプリ(解析はブラウザ内のみ・写真は送信しない)",
-      tags: [],
+      tags: ["Webアプリ", "美容"],
     },
     {
       show: true,
