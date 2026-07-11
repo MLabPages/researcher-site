@@ -402,7 +402,8 @@ async function renderAdminPanel() {
     dataJsText = dataJsText.replace(re, `show: ${value}$1`);
   }
 
-  // 未登録リポジトリのブロックを tools: [ の先頭に挿し込む
+  // 未登録リポジトリのブロックを tools 一覧の末尾に挿し込む
+  // （表示順は「上=古い、下=新しい」なので、新しいツールは最後に足す）
   function addToolToText(entry) {
     const block =
 `    {
@@ -414,7 +415,14 @@ async function renderAdminPanel() {
       tags: [],
     },
 `;
-    dataJsText = dataJsText.replace(/tools:\s*\[\s*\n/, (m) => m + block);
+    const start = dataJsText.indexOf("tools: [");
+    const closeIdx = start === -1 ? -1 : dataJsText.indexOf("\n  ],", start);
+    if (closeIdx !== -1) {
+      dataJsText = dataJsText.slice(0, closeIdx + 1) + block + dataJsText.slice(closeIdx + 1);
+    } else {
+      // 想定外の書式のときの保険: 先頭に挿す（壊すよりまし）
+      dataJsText = dataJsText.replace(/tools:\s*\[\s*\n/, (m) => m + block);
+    }
   }
 
   function markDirty() {
@@ -458,7 +466,7 @@ async function renderAdminPanel() {
           } else {
             // 画面プレビュー用の仮エントリ（反映される内容は data.js テキスト側が正）
             const r = repos.find((x) => x.name === repoName);
-            SITE_CONFIG.tools.unshift({
+            SITE_CONFIG.tools.push({
               show: true, repo: r.name, name: r.name,
               url: r.has_pages ? pagesUrl(r.name) : r.html_url,
               description: r.description || "", tags: [],
@@ -474,7 +482,7 @@ async function renderAdminPanel() {
             description: (r.description || "（説明文は data.js で書き換えてください）").replace(/"/g, "'"),
             tags: [],
           };
-          SITE_CONFIG.tools.unshift(entry);
+          SITE_CONFIG.tools.push(entry);
           addToolToText(entry);
         }
         renderTools(); // ページ本体を即時プレビュー更新
