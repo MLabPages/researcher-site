@@ -4,6 +4,8 @@
 
 - 公開URL: https://mlabpages.github.io/researcher-site/
 - main ブランチに push すると GitHub Actions が自動でデプロイします(十数秒)
+- ただしブラウザのキャッシュで**最大10分ほど古い表示のまま**のことがあります。
+  変わっていないように見えたら Ctrl+F5(強制再読込)か、少し待ってから確認してください
 
 ## カスタマイズは data.js だけ
 
