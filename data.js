@@ -108,7 +108,7 @@ const SITE_CONFIG = {
       tags: ["Webアプリ", "計測"],
     },
     {
-      show: true,
+      show: false,
       repo: "virtual-ride",
       name: "バーチャルライド",
       url: "https://mlabpages.github.io/virtual-ride/",
@@ -117,7 +117,7 @@ const SITE_CONFIG = {
       tags: ["Webアプリ", "運動"],
     },
     {
-      show: true,
+      show: false,
       repo: "face-glowup",
       name: "今日は、ひとつだけ。",
       url: "https://mlabpages.github.io/face-glowup/",
