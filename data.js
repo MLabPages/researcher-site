@@ -57,6 +57,10 @@ const SITE_CONFIG = {
   // 上に書いたものほど先に表示。古いものは消してOK。
   news: [
     {
+      date: "2026-07-14",
+      text: "Google ClassroomのWord／PowerPoint提出物を、レイアウトを保って連続確認できる教員向けツールを公開しました。",
+    },
+    {
       date: "2026-07-07",
       text: "AIで開発したツールを公開するサイトを開設しました。",
     },
@@ -134,6 +138,15 @@ const SITE_CONFIG = {
       description:
         "カメラ映像から消費者調査向けの身体反応指標を、端末内で推定する研究用プロトタイプです（利用にはローカル環境での起動が必要）。",
       tags: ["研究ツール", "計測"],
+    },
+    {
+      show: true,
+      repo: "classroom-office-reviewer",
+      name: "Classroom Office Reviewer",
+      url: "https://github.com/MLabPages/classroom-office-reviewer",
+      description:
+        "Google ClassroomでWord／PowerPoint提出物を、レイアウトを保って次々確認・全画面発表できるWindows向け教員支援ツールです。導入手順とダウンロードを公開しています。",
+      tags: ["Windows", "授業支援", "Classroom"],
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {
