@@ -92,7 +92,15 @@ function groupLayoutPreview(compact = false) {
   return `<div class="mini-group-layout"><table aria-label="A列からE列にグループが縦に並ぶ配置図"><thead><tr><th>番号</th>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
 
-function toolPreview(repo) {
+function toolPreview(tool) {
+  const repo = tool.repo;
+  if (tool.screenshot) {
+    const position = esc(tool.imagePosition || "center");
+    return `<figure class="tool-screen">
+      <img src="${esc(tool.screenshot)}" alt="${esc(tool.name)}の実際の画面" loading="lazy" style="object-position:${position}">
+      <figcaption>${esc(tool.screenshotLabel || "実際の画面")}</figcaption>
+    </figure>`;
+  }
   if (repo === "class-picker") return groupLayoutPreview(true);
   if (repo === "Thesis-self-check") {
     return `<div class="mini-checklist" aria-label="卒論の形式チェック例">
@@ -141,8 +149,8 @@ function renderTools() {
       <p class="tool-category">${esc(t.category || t.tags?.[0] || "公開ツール")}</p>
       <h3>${esc(t.name)}</h3>
       <p class="tool-description">${esc(t.description)}</p>
-      <div class="tool-preview">${toolPreview(t.repo)}</div>
-      <a class="primary-button tool-open" data-tool-id="${esc(t.repo)}" href="${esc(t.url)}" target="_blank" rel="noopener">試してみる</a>
+      <div class="tool-preview">${toolPreview(t)}</div>
+      <a class="primary-button tool-open" data-tool-id="${esc(t.repo)}" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.cta || "試してみる")}</a>
       <button class="plain-button discussion-jump" data-tool-id="${esc(t.repo)}" type="button">感想・質問</button>
       <div class="tool-meta">
         <details class="tool-data-note">
