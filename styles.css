@@ -878,6 +878,24 @@ textarea:focus-visible {
   text-align: center;
 }
 
+.tool-data-note summary {
+  cursor: pointer;
+  color: var(--color-text-soft);
+  font-weight: 650;
+  list-style-position: inside;
+}
+
+.tool-data-note[open] summary { color: var(--color-accent-dark); }
+
+.tool-data-note p {
+  margin: 4px 0 2px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--color-surface-soft);
+  color: var(--color-text-soft);
+  line-height: 1.55;
+}
+
 .tool-count { color: var(--color-accent); font-weight: 700; }
 
 .activity-strip {
@@ -943,7 +961,20 @@ textarea:focus-visible {
 .comment-item { padding: 16px 8px; border-bottom: 1px solid var(--color-border); }
 .comment-item header { display: flex; justify-content: space-between; gap: 16px; }
 .comment-item header strong { color: var(--color-accent); font-size: 0.85rem; }
+.comment-meta { display: flex; align-items: center; gap: 10px; }
 .comment-item time { color: var(--color-text-soft); font-size: 0.72rem; }
+.comment-delete {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--color-text-soft);
+  font: inherit;
+  font-size: 0.7rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.comment-delete:hover { color: #a23d32; }
+.comment-delete:disabled { cursor: wait; opacity: 0.6; }
 .comment-item p { margin: 6px 0 0; white-space: pre-wrap; font-size: 0.88rem; }
 
 .comment-form { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--color-border); }
