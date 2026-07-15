@@ -78,23 +78,77 @@ function renderNews() {
     .join("");
 }
 
+function groupLayoutPreview(compact = false) {
+  const rows = compact ? 4 : 6;
+  const cols = ["A", "B", "C", "D", "E"];
+  const head = cols.map((c) => `<th scope="col">${c}列</th>`).join("");
+  const body = Array.from({ length: rows }, (_, row) => {
+    const cells = cols.map((c, col) => {
+      const empty = row === 5 && col > 0;
+      return `<td>${empty ? "—" : `${c}${row + 1}`}</td>`;
+    }).join("");
+    return `<tr><th scope="row">${row + 1}</th>${cells}</tr>`;
+  }).join("");
+  return `<div class="mini-group-layout"><table aria-label="A列からE列にグループが縦に並ぶ配置図"><thead><tr><th>番号</th>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+
+function toolPreview(repo) {
+  if (repo === "class-picker") return groupLayoutPreview(true);
+  if (repo === "Thesis-self-check") {
+    return `<div class="mini-checklist" aria-label="卒論の形式チェック例">
+      <div><span>構成の整合性</span><b>OK</b></div>
+      <div><span>引用・出典</span><b>OK</b></div>
+      <div><span>表記・フォーマット</span><b class="needs-check">確認</b></div>
+      <div><span>図表番号・キャプション</span><b>OK</b></div>
+    </div>`;
+  }
+  if (repo === "reaction-meter") {
+    return `<div class="mini-meter" aria-label="身体反応の数値計測例">
+      <div class="meter-status"><span>カメラ検出</span><strong>計測中</strong></div>
+      <label>身体の動き <meter min="0" max="100" value="68">68</meter></label>
+      <label>前傾 <meter min="0" max="100" value="43">43</meter></label>
+      <label>反応強度 <meter min="0" max="100" value="76">76</meter></label>
+      <p>映像は保存・送信しません</p>
+    </div>`;
+  }
+  if (repo === "classroom-office-reviewer") {
+    return `<div class="mini-reviewer" aria-label="提出物を順番に確認する画面例">
+      <div class="reviewer-bar">提出物一覧 <span>3 / 25</span></div>
+      <div class="reviewer-body">
+        <ul><li>01_山田.docx</li><li class="active">02_鈴木.pptx</li><li>03_佐藤.docx</li></ul>
+        <div class="document-page"><strong>発表資料</strong><span>レイアウトを保って表示</span></div>
+      </div>
+    </div>`;
+  }
+  return `<div class="mini-generic">${esc(repo)}</div>`;
+}
+
+function visibleTools() {
+  return (SITE_CONFIG.tools || []).filter((t) => t.show && t.repo !== "virtual-ride");
+}
+
 function renderTools() {
   const lead = document.getElementById("tools-lead");
   if (lead) lead.textContent = SITE_CONFIG.text?.toolsLead || "";
 
+  const feature = document.getElementById("featured-preview");
+  if (feature) feature.innerHTML = groupLayoutPreview();
+
   const grid = document.getElementById("tool-grid");
-  // show が true のものだけ表示する（false は非表示）
-  grid.innerHTML = (SITE_CONFIG.tools || [])
-    .filter((t) => t.show)
-    .map(
-      (t) => `
-      <a class="tool-card" href="${esc(t.url)}" target="_blank" rel="noopener">
-        <h3>${esc(t.name)} <span class="arrow">↗</span></h3>
-        <p>${esc(t.description)}</p>
-        <div class="tool-tags">${(t.tags || []).map((tag) => `<span class="tool-tag">${esc(tag)}</span>`).join("")}</div>
-      </a>`
-    )
-    .join("");
+  if (!grid) return;
+  grid.innerHTML = visibleTools().map((t) => `
+    <article class="tool-card" data-tool="${esc(t.repo)}">
+      <p class="tool-category">${esc(t.category || t.tags?.[0] || "公開ツール")}</p>
+      <h3>${esc(t.name)}</h3>
+      <p class="tool-description">${esc(t.description)}</p>
+      <div class="tool-preview">${toolPreview(t.repo)}</div>
+      <a class="primary-button tool-open" data-tool-id="${esc(t.repo)}" href="${esc(t.url)}" target="_blank" rel="noopener">試してみる</a>
+      <button class="plain-button discussion-jump" data-tool-id="${esc(t.repo)}" type="button">感想・質問</button>
+      <div class="tool-meta">
+        <span>${esc(t.privacy || "利用条件を確認してください")}</span>
+        <span class="tool-count" data-count-for="${esc(t.repo)}">集計準備中</span>
+      </div>
+    </article>`).join("");
 }
 
 function renderContact() {
@@ -181,7 +235,7 @@ async function renderProfile() {
   document.getElementById("name-main").textContent = nameJa || nameEn;
   document.getElementById("name-kana").textContent =
     [kana, nameEn].filter(Boolean).join(" / ");
-  document.title = `${nameJa}|研究とツール公開`;
+  document.title = `M-Lab ツール広場 | ${nameJa || "研究とツール公開"}`;
 
   const aff = (p.affiliations || [])
     .map((a) => [ja(a.affiliation), ja(a.section), ja(a.job)].filter(Boolean).join(" "))
@@ -330,6 +384,250 @@ async function renderCareer() {
   } catch (e) {
     console.error(e);
     body.innerHTML = fallbackHtml("経歴");
+  }
+}
+
+// ---- ツール広場: 利用回数とGoogleログイン掲示板 ----
+
+const COMMUNITY = {
+  ready: false,
+  user: null,
+  comments: [],
+  activeTool: "class-picker",
+  api: null,
+};
+
+function setCommunityStatus(message) {
+  const el = document.getElementById("auth-status");
+  if (el) el.textContent = message;
+}
+
+function renderTopicTabs() {
+  const tabs = document.getElementById("topic-tabs");
+  if (!tabs) return;
+  tabs.innerHTML = visibleTools().map((tool) => `
+    <button type="button" role="tab" data-topic="${esc(tool.repo)}"
+      aria-selected="${tool.repo === COMMUNITY.activeTool ? "true" : "false"}">
+      ${esc(tool.name)}
+    </button>`).join("");
+}
+
+function formatCommentDate(timestamp) {
+  const date = timestamp?.toDate ? timestamp.toDate() : null;
+  if (!date) return "投稿直後";
+  return new Intl.DateTimeFormat("ja-JP", {
+    year: "numeric", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit",
+  }).format(date);
+}
+
+function renderComments() {
+  const list = document.getElementById("comment-list");
+  if (!list) return;
+  const comments = COMMUNITY.comments.filter((item) => item.toolId === COMMUNITY.activeTool);
+  list.replaceChildren();
+
+  if (!COMMUNITY.ready) {
+    const p = document.createElement("p");
+    p.className = "empty-state";
+    p.textContent = "Google掲示板は現在接続準備中です。";
+    list.appendChild(p);
+    return;
+  }
+  if (comments.length === 0) {
+    const p = document.createElement("p");
+    p.className = "empty-state";
+    p.textContent = "まだ投稿はありません。最初の感想や質問をお寄せください。";
+    list.appendChild(p);
+    return;
+  }
+
+  comments.forEach((item) => {
+    const article = document.createElement("article");
+    article.className = "comment-item";
+    const header = document.createElement("header");
+    const name = document.createElement("strong");
+    name.textContent = item.displayName || "広場の参加者";
+    const time = document.createElement("time");
+    time.textContent = formatCommentDate(item.createdAt);
+    header.append(name, time);
+    const body = document.createElement("p");
+    body.textContent = item.text || "";
+    article.append(header, body);
+    list.appendChild(article);
+  });
+}
+
+function selectTopic(toolId) {
+  if (!visibleTools().some((tool) => tool.repo === toolId)) return;
+  COMMUNITY.activeTool = toolId;
+  document.querySelectorAll("[data-topic]").forEach((button) => {
+    button.setAttribute("aria-selected", String(button.dataset.topic === toolId));
+  });
+  renderComments();
+}
+
+function updateAuthUi() {
+  const signin = document.getElementById("google-signin");
+  const signout = document.getElementById("signout-button");
+  const form = document.getElementById("comment-form");
+  if (!signin || !signout || !form) return;
+
+  signin.hidden = Boolean(COMMUNITY.user);
+  signin.disabled = !COMMUNITY.ready;
+  signout.hidden = !COMMUNITY.user;
+  form.hidden = !COMMUNITY.user;
+  if (COMMUNITY.user) {
+    setCommunityStatus(`${COMMUNITY.user.displayName || "Googleユーザー"}さんとして参加中です。`);
+  } else if (COMMUNITY.ready) {
+    setCommunityStatus("コメントの閲覧はログイン不要です。投稿するときだけGoogleログインを使用します。");
+  }
+}
+
+async function incrementToolCount(toolId) {
+  if (!COMMUNITY.ready || !COMMUNITY.api) return;
+  const { db, fs } = COMMUNITY.api;
+  const ref = fs.doc(db, "toolStats", toolId);
+  try {
+    await fs.runTransaction(db, async (transaction) => {
+      const snap = await transaction.get(ref);
+      if (snap.exists()) transaction.update(ref, { opens: Number(snap.data().opens || 0) + 1 });
+      else transaction.set(ref, { opens: 1 });
+    });
+  } catch (error) {
+    console.warn("利用回数を記録できませんでした", error);
+  }
+}
+
+function listenToCounts() {
+  const { db, fs } = COMMUNITY.api;
+  fs.onSnapshot(fs.collection(db, "toolStats"), (snapshot) => {
+    let total = 0;
+    snapshot.forEach((item) => {
+      const opens = Number(item.data().opens || 0);
+      total += opens;
+      document.querySelectorAll(`[data-count-for="${CSS.escape(item.id)}"]`).forEach((el) => {
+        el.textContent = `試された回数: ${opens.toLocaleString("ja-JP")}回`;
+      });
+    });
+    const totalEl = document.getElementById("total-open-count");
+    if (totalEl) totalEl.textContent = total > 0 ? `${total.toLocaleString("ja-JP")}回 試されました` : "これから記録を始めます";
+  }, (error) => {
+    console.warn("利用回数を読み込めませんでした", error);
+  });
+}
+
+function listenToComments() {
+  const { db, fs } = COMMUNITY.api;
+  const q = fs.query(fs.collection(db, "comments"), fs.orderBy("createdAt", "desc"), fs.limit(50));
+  fs.onSnapshot(q, (snapshot) => {
+    COMMUNITY.comments = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    renderComments();
+  }, (error) => {
+    console.warn("コメントを読み込めませんでした", error);
+    const list = document.getElementById("comment-list");
+    if (list) list.innerHTML = `<p class="empty-state">コメントを読み込めませんでした。しばらくしてから再度お試しください。</p>`;
+  });
+}
+
+async function submitComment(event) {
+  event.preventDefault();
+  if (!COMMUNITY.ready || !COMMUNITY.user) return;
+  const textarea = document.getElementById("comment-text");
+  const message = document.getElementById("form-message");
+  const text = textarea.value.trim();
+  if (!text || text.length > 500) return;
+
+  const { db, fs } = COMMUNITY.api;
+  try {
+    message.textContent = "投稿しています…";
+    await fs.addDoc(fs.collection(db, "comments"), {
+      toolId: COMMUNITY.activeTool,
+      text,
+      uid: COMMUNITY.user.uid,
+      displayName: COMMUNITY.user.displayName || "Googleユーザー",
+      createdAt: fs.serverTimestamp(),
+    });
+    textarea.value = "";
+    document.getElementById("comment-count").textContent = "0";
+    message.textContent = "投稿しました。";
+  } catch (error) {
+    console.error(error);
+    message.textContent = "投稿できませんでした。時間をおいて再度お試しください。";
+  }
+}
+
+function bindPlazaInteractions() {
+  document.addEventListener("click", (event) => {
+    const openLink = event.target.closest(".tool-open");
+    if (openLink?.dataset.toolId) incrementToolCount(openLink.dataset.toolId);
+
+    const jump = event.target.closest(".discussion-jump");
+    if (jump?.dataset.toolId) {
+      selectTopic(jump.dataset.toolId);
+      document.getElementById("community")?.scrollIntoView({ behavior: "smooth" });
+    }
+
+    const topic = event.target.closest("[data-topic]");
+    if (topic) selectTopic(topic.dataset.topic);
+  });
+
+  const textarea = document.getElementById("comment-text");
+  textarea?.addEventListener("input", () => {
+    document.getElementById("comment-count").textContent = String(textarea.value.length);
+  });
+  document.getElementById("comment-form")?.addEventListener("submit", submitComment);
+}
+
+async function initCommunity() {
+  renderTopicTabs();
+  renderComments();
+  bindPlazaInteractions();
+
+  const config = window.MLAB_FIREBASE_CONFIG;
+  if (!config?.apiKey || !config?.projectId || !config?.authDomain) {
+    setCommunityStatus("Google掲示板はFirebase接続後に利用できます。現在は準備中です。");
+    updateAuthUi();
+    return;
+  }
+
+  try {
+    const version = "12.15.0";
+    const [appModule, authModule, firestoreModule] = await Promise.all([
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-app.js`),
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-auth.js`),
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-firestore.js`),
+    ]);
+    const app = appModule.initializeApp(config);
+    const auth = authModule.getAuth(app);
+    const db = firestoreModule.getFirestore(app);
+    await authModule.setPersistence(auth, authModule.browserLocalPersistence);
+    await authModule.getRedirectResult(auth).catch(() => null);
+
+    COMMUNITY.api = { auth, db, authModule, fs: firestoreModule };
+    COMMUNITY.ready = true;
+    listenToCounts();
+    listenToComments();
+
+    authModule.onAuthStateChanged(auth, (user) => {
+      COMMUNITY.user = user;
+      updateAuthUi();
+    });
+
+    document.getElementById("google-signin")?.addEventListener("click", async () => {
+      const provider = new authModule.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: "select_account" });
+      try {
+        await authModule.signInWithPopup(auth, provider);
+      } catch (error) {
+        console.error(error);
+        setCommunityStatus("Googleログインを完了できませんでした。もう一度お試しください。");
+      }
+    });
+    document.getElementById("signout-button")?.addEventListener("click", () => authModule.signOut(auth));
+  } catch (error) {
+    console.error("Firebase initialization failed", error);
+    setCommunityStatus("Google掲示板を読み込めませんでした。現在は準備中です。");
+    updateAuthUi();
   }
 }
 
@@ -521,7 +819,7 @@ renderInterests();
 renderNews();
 renderTools();
 renderContact();
-applyLayout(); // data.js の sectionOrder に沿って並び順・ナビを組み立てる
+initCommunity().catch((e) => console.error(e));
 
 renderProfile().catch((e) => {
   console.error(e);
