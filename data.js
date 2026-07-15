@@ -19,7 +19,7 @@ const SITE_CONFIG = {
   // ---- 自由に書き換えられる文言 ----
   text: {
     toolsLead: "授業や研究の中で生まれた道具を、どなたでも無料で試せます。",
-    upcoming: ["View Pulse", "尺度アトラス"],
+    upcoming: [],
   },
 
   // ============================================================
@@ -96,6 +96,9 @@ const SITE_CONFIG = {
       category: "授業支援",
       privacyHighlight: "名簿の準備なしですぐ使えます",
       privacyDetail: "氏名や名簿データは収集しません。",
+      screenshot: "assets/class-picker-screen.png",
+      screenshotLabel: "実際の画面",
+      imagePosition: "center 24%",
     },
     {
       show: true,
@@ -108,6 +111,9 @@ const SITE_CONFIG = {
       category: "学習サポート",
       privacyHighlight: "ファイルを送らず、その場でチェック",
       privacyDetail: "論文ファイルはブラウザ内で処理され、外部へ送信されません。",
+      screenshot: "assets/thesis-check-screen.png",
+      screenshotLabel: "実際の画面",
+      imagePosition: "center 20%",
     },
     {
       show: true,
@@ -120,6 +126,9 @@ const SITE_CONFIG = {
       category: "計測・可視化",
       privacyHighlight: "映像を残さず反応を可視化",
       privacyDetail: "カメラ映像は保存・送信せず、数値データのみを扱います。",
+      screenshot: "assets/reaction-meter-screen.png",
+      screenshotLabel: "実際の画面",
+      imagePosition: "center 27%",
     },
     {
       show: false,
@@ -152,7 +161,7 @@ const SITE_CONFIG = {
     {
       show: true,
       repo: "classroom-office-reviewer",
-      name: "Classroom Office Reviewer",
+      name: "Classroom提出物連続表示",
       url: "https://github.com/MLabPages/classroom-office-reviewer",
       description:
         "Google ClassroomでWord／PowerPoint提出物を、レイアウトを保って次々確認・全画面発表できるWindows向け教員支援ツールです。導入手順とダウンロードを公開しています。",
@@ -160,6 +169,53 @@ const SITE_CONFIG = {
       category: "研究・教育支援",
       privacyHighlight: "PC上で提出物をスムーズに確認",
       privacyDetail: "提出物は利用者のPC上で扱います。",
+      cta: "導入方法を見る",
+    },
+    {
+      show: true,
+      repo: "student-submission-viewer",
+      name: "提出物連続確認ツール",
+      url: "https://github.com/MLabPages/student-submission-viewer",
+      description:
+        "Word／PowerPoint／PDFの提出物をレイアウトを保って連続表示し、採点・メモ・CSV出力まで行えるWindows向けツールです。",
+      tags: ["Windows", "授業支援", "採点"],
+      category: "授業支援",
+      privacyHighlight: "提出物を送らず、PC上で連続確認",
+      privacyDetail: "提出物は外部へ送信せず、利用者のWindows PC上で処理します。",
+      screenshot: "assets/submission-viewer-screen.png",
+      screenshotLabel: "実際の画面",
+      imagePosition: "center 18%",
+      cta: "導入方法を見る",
+    },
+    {
+      show: true,
+      repo: "view-pulse",
+      name: "View Pulse",
+      url: "https://mlabpages.github.io/view-pulse/",
+      description:
+        "見ている風景と表情・視線の変化をスマートフォンで同時に記録し、反応が生まれた瞬間を振り返る研究用Webアプリです。",
+      tags: ["Webアプリ", "計測", "研究"],
+      category: "計測・可視化",
+      privacyHighlight: "見た場面と反応を端末内で同期",
+      privacyDetail: "表情や視線の推定は端末内で行います。顔動画の保存は利用者が選択できます。",
+      screenshot: "assets/view-pulse-screen.png",
+      screenshotLabel: "実際の画面",
+      imagePosition: "center 38%",
+    },
+    {
+      show: true,
+      repo: "management-scale-atlas",
+      name: "経営学・マーケティング概念・尺度アトラス（試作版）",
+      url: "https://mlabpages.github.io/management-scale-atlas/",
+      description:
+        "経営学・マーケティングの概念と測定尺度を、日本語で検索・比較し、研究設計につなげるための試作版データベースです。",
+      tags: ["Webアプリ", "尺度", "研究支援"],
+      category: "研究支援",
+      privacyHighlight: "概念探しから尺度比較まで一か所で",
+      privacyDetail: "検索や比較はブラウザで行え、研究設計のメモは利用中のブラウザ内に保存されます。",
+      screenshot: "assets/scale-atlas-screen.png",
+      screenshotLabel: "実際の画面",
+      imagePosition: "center 30%",
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {
