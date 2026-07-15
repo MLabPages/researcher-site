@@ -395,6 +395,7 @@ async function renderCareer() {
 const COMMUNITY = {
   ready: false,
   user: null,
+  isModerator: false,
   comments: [],
   activeTool: "class-picker",
   api: null,
@@ -455,13 +456,14 @@ function renderComments() {
     const meta = document.createElement("div");
     meta.className = "comment-meta";
     meta.appendChild(time);
-    if (COMMUNITY.user?.uid === item.uid) {
+    const isOwnComment = COMMUNITY.user?.uid === item.uid;
+    if (isOwnComment || COMMUNITY.isModerator) {
       const deleteButton = document.createElement("button");
       deleteButton.className = "comment-delete";
       deleteButton.type = "button";
       deleteButton.dataset.commentDelete = item.id;
-      deleteButton.textContent = "削除";
-      deleteButton.setAttribute("aria-label", `${name.textContent}さんのコメントを削除`);
+      deleteButton.textContent = isOwnComment ? "削除" : "運営者として削除";
+      deleteButton.setAttribute("aria-label", `${name.textContent}さんのコメントを${isOwnComment ? "削除" : "運営者として削除"}`);
       meta.appendChild(deleteButton);
     }
     header.append(name, meta);
@@ -472,11 +474,15 @@ function renderComments() {
   });
 }
 
-async function deleteOwnComment(commentId) {
+async function deleteComment(commentId) {
   if (!COMMUNITY.ready || !COMMUNITY.user) return;
   const item = COMMUNITY.comments.find((comment) => comment.id === commentId);
-  if (!item || item.uid !== COMMUNITY.user.uid) return;
-  if (!window.confirm("このコメントを削除しますか？")) return;
+  const isOwnComment = item?.uid === COMMUNITY.user.uid;
+  if (!item || (!isOwnComment && !COMMUNITY.isModerator)) return;
+  const confirmation = isOwnComment
+    ? "このコメントを削除しますか？"
+    : "運営者として、このコメントを削除しますか？";
+  if (!window.confirm(confirmation)) return;
 
   const button = document.querySelector(`[data-comment-delete="${CSS.escape(commentId)}"]`);
   if (button) {
@@ -516,7 +522,8 @@ function updateAuthUi() {
   signout.hidden = !COMMUNITY.user;
   form.hidden = !COMMUNITY.user;
   if (COMMUNITY.user) {
-    setCommunityStatus(`${COMMUNITY.user.displayName || "Googleユーザー"}さんとして参加中です。`);
+    const role = COMMUNITY.isModerator ? "運営者として" : "";
+    setCommunityStatus(`${COMMUNITY.user.displayName || "Googleユーザー"}さんが${role}参加中です。`);
   } else if (COMMUNITY.ready) {
     setCommunityStatus("コメントの閲覧はログイン不要です。投稿するときだけGoogleログインを使用します。");
   }
@@ -599,7 +606,7 @@ function bindPlazaInteractions() {
   document.addEventListener("click", (event) => {
     const commentDelete = event.target.closest("[data-comment-delete]");
     if (commentDelete?.dataset.commentDelete) {
-      deleteOwnComment(commentDelete.dataset.commentDelete);
+      deleteComment(commentDelete.dataset.commentDelete);
       return;
     }
 
@@ -653,9 +660,23 @@ async function initCommunity() {
     listenToCounts();
     listenToComments();
 
-    authModule.onAuthStateChanged(auth, (user) => {
+    authModule.onAuthStateChanged(auth, async (user) => {
       COMMUNITY.user = user;
+      COMMUNITY.isModerator = false;
       updateAuthUi();
+      renderComments();
+      if (!user) return;
+
+      try {
+        const moderatorRef = firestoreModule.doc(db, "moderators", user.uid);
+        const moderatorSnapshot = await firestoreModule.getDoc(moderatorRef);
+        if (COMMUNITY.user?.uid !== user.uid) return;
+        COMMUNITY.isModerator = moderatorSnapshot.exists();
+      } catch (error) {
+        console.warn("運営者権限を確認できませんでした", error);
+      }
+      updateAuthUi();
+      renderComments();
     });
 
     document.getElementById("google-signin")?.addEventListener("click", async () => {

@@ -2,6 +2,11 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isModerator() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/moderators/$(request.auth.uid));
+    }
+
     match /toolStats/{toolId} {
       allow read: if true;
       allow create: if request.resource.data.keys().hasOnly(['opens'])
@@ -28,7 +33,13 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
       allow update: if false;
       allow delete: if request.auth != null
-        && resource.data.uid == request.auth.uid;
+        && (resource.data.uid == request.auth.uid || isModerator());
+    }
+
+    match /moderators/{moderatorId} {
+      allow read: if request.auth != null
+        && request.auth.uid == moderatorId;
+      allow write: if false;
     }
   }
 }
