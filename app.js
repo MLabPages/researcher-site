@@ -644,12 +644,20 @@ async function initCommunity() {
 
   try {
     const version = "12.15.0";
-    const [appModule, authModule, firestoreModule] = await Promise.all([
+    const [appModule, authModule, firestoreModule, appCheckModule] = await Promise.all([
       import(`https://www.gstatic.com/firebasejs/${version}/firebase-app.js`),
       import(`https://www.gstatic.com/firebasejs/${version}/firebase-auth.js`),
       import(`https://www.gstatic.com/firebasejs/${version}/firebase-firestore.js`),
+      import(`https://www.gstatic.com/firebasejs/${version}/firebase-app-check.js`),
     ]);
     const app = appModule.initializeApp(config);
+    const appCheckSiteKey = window.MLAB_APP_CHECK_SITE_KEY;
+    if (appCheckSiteKey) {
+      appCheckModule.initializeAppCheck(app, {
+        provider: new appCheckModule.ReCaptchaEnterpriseProvider(appCheckSiteKey),
+        isTokenAutoRefreshEnabled: true,
+      });
+    }
     const auth = authModule.getAuth(app);
     const db = firestoreModule.getFirestore(app);
     await authModule.setPersistence(auth, authModule.browserLocalPersistence);

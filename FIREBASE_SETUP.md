@@ -27,12 +27,21 @@
 2. 本番モードを選びます。
 3. 「ルール」タブに `firestore.rules` の内容を貼り、公開します。
 
-## 4. 動作確認
+## 4. App Checkを登録する
+
+1. Google Cloud Consoleで、`mlabpages.github.io` 用のreCAPTCHA Enterprise Webキーを作成します。
+2. Firebase Consoleの「App Check」→「アプリ」でWebアプリを登録します。
+3. プロバイダはreCAPTCHA Enterpriseを選び、サイトキーを登録します。
+4. サイトキーを `firebase-config.js` の `MLAB_APP_CHECK_SITE_KEY` に設定します。
+5. コードを公開した直後は、Cloud Firestoreの「適用」をまだ有効にしません。
+6. 「App Check」→「API」で確認済みリクエストが記録されることを確認してから、Cloud Firestoreの適用を有効にします。
+
+## 5. 動作確認
 
 1. ローカルではHTTPサーバー経由で開きます（ファイルを直接ダブルクリックしません）。
 2. コメント閲覧、Googleログイン、投稿、ツールを開いた回数を確認します。
 
-## 5. 運営者UIDを登録する
+## 6. 運営者UIDを登録する
 
 1. 公開サイトで、運営に使うGoogleアカウントから一度ログインします。
 2. Firebase Consoleの「Authentication」→「Users」を開き、そのアカウントのUIDをコピーします。
