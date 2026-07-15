@@ -157,7 +157,7 @@ function renderTools() {
           <summary>${esc(t.privacyHighlight || "安心して試せる設計です")}</summary>
           <p>${esc(t.privacyDetail || "詳しいデータの扱いは各ツールでご確認ください。")}</p>
         </details>
-        <span class="tool-count" data-count-for="${esc(t.repo)}">集計準備中</span>
+        <span class="tool-count" data-count-for="${esc(t.repo)}">試された回数: 0回</span>
       </div>
     </article>`).join("");
 }
