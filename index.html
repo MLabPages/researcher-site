@@ -3,87 +3,156 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>牧野 耀|研究とツール公開</title>
-  <meta name="description" content="牧野耀(近畿大学経営学部 准教授)の研究紹介と、研究室で開発したツールの公開ページです。">
-  <!-- ↓ 試し公開用: Google などの検索結果に載せない設定。
-       検索に載せたくなったら、この1行を削除して push してください。 -->
+  <title>M-Lab ツール広場</title>
+  <meta name="description" content="研究・教育・日常から生まれた実験的なツールを、自由に試して感想を共有できるM-Labのツール広場です。">
   <meta name="robots" content="noindex">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-  <header class="hero">
-    <div class="container hero-inner">
-      <div class="hero-text">
-        <p class="hero-kana" id="name-kana"></p>
-        <h1 class="hero-name" id="name-main">&nbsp;</h1>
-        <p class="hero-affiliation" id="affiliation-main"></p>
-        <p class="hero-links" id="profile-links"></p>
-      </div>
+  <header class="plaza-header">
+    <div class="wide-container header-inner">
+      <a class="plaza-logo" href="#top" aria-label="M-Lab ツール広場 トップへ">M-Lab <span>ツール広場</span></a>
+      <nav class="plaza-nav" aria-label="メインナビゲーション">
+        <a href="#tools">ツールを探す</a>
+        <a href="#community">みんなの声</a>
+        <a href="#about">この広場について</a>
+      </nav>
     </div>
   </header>
 
-  <nav class="site-nav">
-    <div class="container nav-inner" id="nav-links"></div>
-  </nav>
-
-  <main class="container">
-
-    <section id="about" class="section">
-      <div id="research-keywords" class="keyword-list"></div>
+  <main id="top">
+    <section class="market-hero wide-container" aria-labelledby="hero-heading">
+      <div class="hero-copy">
+        <p class="eyebrow">OPEN TOOL COMMONS</p>
+        <h1 id="hero-heading">気になる道具を、<br>ひとつ試そう。</h1>
+        <p>授業や研究、日常の「ちょっと困った」を助ける実験的なツールが集まる広場。自由に試して、気づきやアイデアを共有してください。</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#tools">ツールを探す</a>
+          <a class="text-link" href="#about">この広場について</a>
+        </div>
+      </div>
+      <article class="featured-tool" aria-labelledby="featured-title">
+        <div class="featured-copy">
+          <span class="featured-ribbon">今週のおすすめ</span>
+          <p class="tool-category">授業支援</p>
+          <h2 id="featured-title">グループ抽選ツール</h2>
+          <p>授業でのグループ分けを、もっと公平に、もっと簡単に。</p>
+          <div class="featured-actions">
+            <a class="primary-button tool-open" data-tool-id="class-picker" href="https://mlabpages.github.io/class-picker/" target="_blank" rel="noopener">試してみる</a>
+            <button class="plain-button discussion-jump" data-tool-id="class-picker" type="button">感想・質問</button>
+          </div>
+        </div>
+        <div class="featured-preview" id="featured-preview" aria-label="グループ抽選ツールの配置図プレビュー"></div>
+      </article>
     </section>
 
-    <!-- 以下のセクションは data.js の sectionOrder で並び順・表示/非表示を変えられます -->
-
-    <section id="interests" class="section" data-section="interests" hidden>
-      <h2 id="interests-heading">研究の関心・今後の課題</h2>
-      <p class="section-lead" id="interests-lead" hidden></p>
-      <ul class="interest-list" id="interest-list"></ul>
-    </section>
-
-    <section id="news" class="section" data-section="news">
-      <h2>お知らせ</h2>
-      <ul class="news-list" id="news-list"></ul>
-    </section>
-
-    <section id="tools" class="section" data-section="tools">
-      <h2>公開ツール</h2>
-      <p class="section-lead" id="tools-lead"></p>
+    <section class="tools-section wide-container" id="tools" aria-labelledby="tools-heading">
+      <div class="section-heading-row">
+        <div>
+          <p class="eyebrow">TRY A TOOL</p>
+          <h2 id="tools-heading">公開ツール</h2>
+        </div>
+        <p id="tools-lead">どなたでも無料で利用できます。</p>
+      </div>
       <div class="tool-grid" id="tool-grid"></div>
     </section>
 
-    <section id="publications" class="section" data-section="publications">
-      <h2>研究業績</h2>
-      <p class="section-lead">
-        <a href="https://researchmap.jp/" target="_blank" rel="noopener">researchmap</a>
-        の登録内容から自動で取得しています。
-      </p>
-      <div id="publications-body">
-        <p class="loading" id="pub-loading">researchmap から読み込み中…</p>
+    <section class="activity-strip wide-container" aria-live="polite">
+      <div>
+        <span class="activity-label">広場の利用</span>
+        <strong id="total-open-count">集計準備中</strong>
+      </div>
+      <a href="#community">みんなの声を見る</a>
+    </section>
+
+    <section class="community-section wide-container" id="community" aria-labelledby="community-heading">
+      <div class="community-intro">
+        <p class="eyebrow">COMMUNITY BOARD</p>
+        <h2 id="community-heading">広場で話す</h2>
+        <p>使ってみて気づいたこと、授業での活用アイデア、困ったことを共有できます。コメントの閲覧はログイン不要です。</p>
+        <div class="auth-actions">
+          <button class="google-button" id="google-signin" type="button">Googleアカウントで参加</button>
+          <button class="plain-button" id="signout-button" type="button" hidden>ログアウト</button>
+        </div>
+        <p class="auth-status" id="auth-status">掲示板を準備しています…</p>
+      </div>
+      <div class="community-board">
+        <div class="topic-tabs" id="topic-tabs" role="tablist" aria-label="ツール別の会話"></div>
+        <div class="comment-list" id="comment-list" aria-live="polite">
+          <p class="empty-state">コメントを読み込んでいます…</p>
+        </div>
+        <form class="comment-form" id="comment-form" hidden>
+          <label for="comment-text">感想・質問を書く</label>
+          <textarea id="comment-text" maxlength="500" rows="3" placeholder="使ってみて気づいたことや質問を書いてください。" required></textarea>
+          <div class="form-footer">
+            <span><span id="comment-count">0</span>/500文字</span>
+            <button class="primary-button" type="submit">投稿する</button>
+          </div>
+          <p class="form-message" id="form-message" aria-live="polite"></p>
+        </form>
       </div>
     </section>
 
-    <section id="career" class="section" data-section="career">
-      <h2>経歴</h2>
-      <div id="career-body">
-        <p class="loading" id="career-loading">researchmap から読み込み中…</p>
+    <aside class="upcoming-strip wide-container">
+      <span>次に公開予定</span>
+      <strong>View Pulse</strong>
+      <span aria-hidden="true">/</span>
+      <strong>尺度アトラス</strong>
+    </aside>
+
+    <details class="about-drawer wide-container" id="about">
+      <summary>
+        <span>運営者・研究について</span>
+        <small>教員プロフィール、研究テーマ、業績、経歴を見る</small>
+      </summary>
+      <div class="about-content">
+        <section class="profile-panel">
+          <p class="hero-kana" id="name-kana"></p>
+          <h2 class="hero-name" id="name-main">牧野 耀</h2>
+          <p class="hero-affiliation" id="affiliation-main"></p>
+          <p class="hero-links" id="profile-links"></p>
+          <div class="keyword-list" id="research-keywords"></div>
+        </section>
+
+        <section id="news" class="section" data-section="news">
+          <h2>お知らせ</h2>
+          <ul class="news-list" id="news-list"></ul>
+        </section>
+
+        <section id="interests" class="section" data-section="interests">
+          <h2 id="interests-heading">いま関心のあるテーマ</h2>
+          <p class="section-lead" id="interests-lead" hidden></p>
+          <ul class="interest-list" id="interest-list"></ul>
+        </section>
+
+        <section id="publications" class="section" data-section="publications">
+          <h2>研究業績</h2>
+          <p class="section-lead"><a href="https://researchmap.jp/" target="_blank" rel="noopener">researchmap</a>の登録内容から自動取得しています。</p>
+          <div id="publications-body"><p class="loading" id="pub-loading">researchmap から読み込み中…</p></div>
+        </section>
+
+        <section id="career" class="section" data-section="career">
+          <h2>経歴</h2>
+          <div id="career-body"><p class="loading" id="career-loading">researchmap から読み込み中…</p></div>
+        </section>
+
+        <section id="contact" class="section" data-section="contact">
+          <h2>連絡先</h2>
+          <div class="contact-card" id="contact-card"></div>
+        </section>
       </div>
-    </section>
-
-    <section id="contact" class="section" data-section="contact">
-      <h2>連絡先</h2>
-      <div class="contact-card" id="contact-card"></div>
-    </section>
-
+    </details>
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <p id="footer-line"></p>
+    <div class="wide-container footer-inner">
+      <p id="footer-line">© 2026 M-Lab ツール広場</p>
+      <p><a href="https://researchmap.jp/7000029092" target="_blank" rel="noopener">researchmap</a></p>
     </div>
   </footer>
 
   <script src="data.js"></script>
+  <script src="firebase-config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

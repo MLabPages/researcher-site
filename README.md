@@ -1,6 +1,6 @@
-# 研究者サイト(researcher-site)
+# M-Lab ツール広場(researcher-site)
 
-牧野耀の研究紹介・ツール公開サイトです。ビルド不要の静的サイト(HTML/CSS/JS)。
+研究・教育ツールを誰でも試し、感想や質問を共有できる広場型サイトです。ビルド不要の静的サイト(HTML/CSS/JS)。
 
 - 公開URL: https://mlabpages.github.io/researcher-site/
 - main ブランチに push すると GitHub Actions が自動でデプロイします(十数秒)
@@ -25,6 +25,16 @@
 公開サイトの URL に `?admin=1` を付けて開くと、GitHub の公開リポジトリと
 data.js を照合した管理パネルが出ます(訪問者には見えません)。
 「＋ 未登録」のブロックをコピーして `tools: [` の中に貼るだけです。
+
+## Googleログイン掲示板・利用回数
+
+画面とFirebase連携処理は実装済みです。初回だけFirebaseプロジェクトの接続が必要です。
+手順は [FIREBASE_SETUP.md](FIREBASE_SETUP.md) を参照してください。
+
+- コメント閲覧: ログイン不要
+- コメント投稿: Googleアカウントでログイン
+- 利用回数: 各ツールの「試してみる」を開いた回数
+- Firebase未接続時: 架空の数値や投稿は表示せず「準備中」と表示
 
 ## 自動取得している部分
 

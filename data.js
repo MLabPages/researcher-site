@@ -18,7 +18,8 @@ const SITE_CONFIG = {
 
   // ---- 自由に書き換えられる文言 ----
   text: {
-    toolsLead: "研究・教育のために開発したツールです。どなたでも無料で利用できます。",
+    toolsLead: "授業や研究の中で生まれた道具を、どなたでも無料で試せます。",
+    upcoming: ["View Pulse", "尺度アトラス"],
   },
 
   // ============================================================
@@ -92,6 +93,8 @@ const SITE_CONFIG = {
       description:
         "授業などでグループ分けをするための抽選サイトです。参加コードでクラスを分け、男女均等での振り分けにも対応します。",
       tags: ["Webアプリ", "授業支援"],
+      category: "授業支援",
+      privacy: "名簿データは端末内で処理します",
     },
     {
       show: true,
@@ -101,6 +104,8 @@ const SITE_CONFIG = {
       description:
         "卒業論文の形式（文字数・見出し・引用など）を提出前に自分でチェックできるサイトです。",
       tags: ["Webアプリ", "卒論支援"],
+      category: "学習サポート",
+      privacy: "論文ファイルは端末内で処理します",
     },
     {
       show: true,
@@ -110,6 +115,8 @@ const SITE_CONFIG = {
       description:
         "カメラで身体反応を計測・記録するWebアプリです。映像は保存・送信せず、数値データのみを扱います。",
       tags: ["Webアプリ", "計測"],
+      category: "計測・可視化",
+      privacy: "映像は保存・送信しません",
     },
     {
       show: false,
@@ -147,6 +154,8 @@ const SITE_CONFIG = {
       description:
         "Google ClassroomでWord／PowerPoint提出物を、レイアウトを保って次々確認・全画面発表できるWindows向け教員支援ツールです。導入手順とダウンロードを公開しています。",
       tags: ["Windows", "授業支援", "Classroom"],
+      category: "研究・教育支援",
+      privacy: "提出物は利用者のPC上で扱います",
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {
