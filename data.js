@@ -94,7 +94,8 @@ const SITE_CONFIG = {
         "授業などでグループ分けをするための抽選サイトです。参加コードでクラスを分け、男女均等での振り分けにも対応します。",
       tags: ["Webアプリ", "授業支援"],
       category: "授業支援",
-      privacy: "名簿データは収集しません",
+      privacyHighlight: "名簿の準備なしですぐ使えます",
+      privacyDetail: "氏名や名簿データは収集しません。",
     },
     {
       show: true,
@@ -105,7 +106,8 @@ const SITE_CONFIG = {
         "卒業論文の形式（文字数・見出し・引用など）を提出前に自分でチェックできるサイトです。",
       tags: ["Webアプリ", "卒論支援"],
       category: "学習サポート",
-      privacy: "論文ファイルは端末内で処理します",
+      privacyHighlight: "ファイルを送らず、その場でチェック",
+      privacyDetail: "論文ファイルはブラウザ内で処理され、外部へ送信されません。",
     },
     {
       show: true,
@@ -116,7 +118,8 @@ const SITE_CONFIG = {
         "カメラで身体反応を計測・記録するWebアプリです。映像は保存・送信せず、数値データのみを扱います。",
       tags: ["Webアプリ", "計測"],
       category: "計測・可視化",
-      privacy: "映像は保存・送信しません",
+      privacyHighlight: "映像を残さず反応を可視化",
+      privacyDetail: "カメラ映像は保存・送信せず、数値データのみを扱います。",
     },
     {
       show: false,
@@ -155,7 +158,8 @@ const SITE_CONFIG = {
         "Google ClassroomでWord／PowerPoint提出物を、レイアウトを保って次々確認・全画面発表できるWindows向け教員支援ツールです。導入手順とダウンロードを公開しています。",
       tags: ["Windows", "授業支援", "Classroom"],
       category: "研究・教育支援",
-      privacy: "提出物は利用者のPC上で扱います",
+      privacyHighlight: "PC上で提出物をスムーズに確認",
+      privacyDetail: "提出物は利用者のPC上で扱います。",
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {

@@ -145,7 +145,10 @@ function renderTools() {
       <a class="primary-button tool-open" data-tool-id="${esc(t.repo)}" href="${esc(t.url)}" target="_blank" rel="noopener">試してみる</a>
       <button class="plain-button discussion-jump" data-tool-id="${esc(t.repo)}" type="button">感想・質問</button>
       <div class="tool-meta">
-        <span>${esc(t.privacy || "利用条件を確認してください")}</span>
+        <details class="tool-data-note">
+          <summary>${esc(t.privacyHighlight || "安心して試せる設計です")}</summary>
+          <p>${esc(t.privacyDetail || "詳しいデータの扱いは各ツールでご確認ください。")}</p>
+        </details>
         <span class="tool-count" data-count-for="${esc(t.repo)}">集計準備中</span>
       </div>
     </article>`).join("");
@@ -449,12 +452,48 @@ function renderComments() {
     name.textContent = item.displayName || "広場の参加者";
     const time = document.createElement("time");
     time.textContent = formatCommentDate(item.createdAt);
-    header.append(name, time);
+    const meta = document.createElement("div");
+    meta.className = "comment-meta";
+    meta.appendChild(time);
+    if (COMMUNITY.user?.uid === item.uid) {
+      const deleteButton = document.createElement("button");
+      deleteButton.className = "comment-delete";
+      deleteButton.type = "button";
+      deleteButton.dataset.commentDelete = item.id;
+      deleteButton.textContent = "削除";
+      deleteButton.setAttribute("aria-label", `${name.textContent}さんのコメントを削除`);
+      meta.appendChild(deleteButton);
+    }
+    header.append(name, meta);
     const body = document.createElement("p");
     body.textContent = item.text || "";
     article.append(header, body);
     list.appendChild(article);
   });
+}
+
+async function deleteOwnComment(commentId) {
+  if (!COMMUNITY.ready || !COMMUNITY.user) return;
+  const item = COMMUNITY.comments.find((comment) => comment.id === commentId);
+  if (!item || item.uid !== COMMUNITY.user.uid) return;
+  if (!window.confirm("このコメントを削除しますか？")) return;
+
+  const button = document.querySelector(`[data-comment-delete="${CSS.escape(commentId)}"]`);
+  if (button) {
+    button.disabled = true;
+    button.textContent = "削除中…";
+  }
+  try {
+    const { db, fs } = COMMUNITY.api;
+    await fs.deleteDoc(fs.doc(db, "comments", commentId));
+  } catch (error) {
+    console.error(error);
+    setCommunityStatus("コメントを削除できませんでした。もう一度お試しください。");
+    if (button) {
+      button.disabled = false;
+      button.textContent = "削除";
+    }
+  }
 }
 
 function selectTopic(toolId) {
@@ -558,6 +597,12 @@ async function submitComment(event) {
 
 function bindPlazaInteractions() {
   document.addEventListener("click", (event) => {
+    const commentDelete = event.target.closest("[data-comment-delete]");
+    if (commentDelete?.dataset.commentDelete) {
+      deleteOwnComment(commentDelete.dataset.commentDelete);
+      return;
+    }
+
     const openLink = event.target.closest(".tool-open");
     if (openLink?.dataset.toolId) incrementToolCount(openLink.dataset.toolId);
 
