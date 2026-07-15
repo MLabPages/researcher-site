@@ -11,6 +11,9 @@ window.MLAB_FIREBASE_CONFIG = {
   measurementId: "G-FBGV1S1KF0",
 };
 
+// reCAPTCHA EnterpriseのサイトキーはWebページに含める公開情報です。
+window.MLAB_APP_CHECK_SITE_KEY = "6LcKD1UtAAAAAAtys5oB0nkGAtA-ESv6MmnJntpy";
+
 // 設定例:
 // window.MLAB_FIREBASE_CONFIG = {
 //   apiKey: "...",
