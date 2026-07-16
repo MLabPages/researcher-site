@@ -135,6 +135,28 @@ function visibleTools() {
   return (SITE_CONFIG.tools || []).filter((t) => t.show && t.repo !== "virtual-ride");
 }
 
+function toolCard(t) {
+  const prototype = t.stage === "prototype";
+  return `<article class="tool-card${prototype ? " is-prototype" : ""}" data-tool="${esc(t.repo)}">
+    <div class="tool-card-labels">
+      <p class="tool-category">${esc(t.category || t.tags?.[0] || "公開ツール")}</p>
+      ${prototype ? `<span class="stage-badge">試作中</span>` : ""}
+    </div>
+    <h3>${esc(t.name)}</h3>
+    <p class="tool-description">${esc(t.description)}</p>
+    <div class="tool-preview">${toolPreview(t)}</div>
+    <a class="primary-button tool-open" data-tool-id="${esc(t.repo)}" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.cta || "試してみる")}</a>
+    <button class="plain-button discussion-jump" data-tool-id="${esc(t.repo)}" type="button">感想・質問</button>
+    <div class="tool-meta">
+      <details class="tool-data-note">
+        <summary>${esc(t.privacyHighlight || "安心して試せる設計です")}</summary>
+        <p>${esc(t.privacyDetail || "詳しいデータの扱いは各ツールでご確認ください。")}</p>
+      </details>
+      <span class="tool-count" data-count-for="${esc(t.repo)}">試された回数: 0回</span>
+    </div>
+  </article>`;
+}
+
 function renderTools() {
   const lead = document.getElementById("tools-lead");
   if (lead) lead.textContent = SITE_CONFIG.text?.toolsLead || "";
@@ -144,22 +166,30 @@ function renderTools() {
 
   const grid = document.getElementById("tool-grid");
   if (!grid) return;
-  grid.innerHTML = visibleTools().map((t) => `
-    <article class="tool-card" data-tool="${esc(t.repo)}">
-      <p class="tool-category">${esc(t.category || t.tags?.[0] || "公開ツール")}</p>
-      <h3>${esc(t.name)}</h3>
-      <p class="tool-description">${esc(t.description)}</p>
-      <div class="tool-preview">${toolPreview(t)}</div>
-      <a class="primary-button tool-open" data-tool-id="${esc(t.repo)}" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.cta || "試してみる")}</a>
-      <button class="plain-button discussion-jump" data-tool-id="${esc(t.repo)}" type="button">感想・質問</button>
-      <div class="tool-meta">
-        <details class="tool-data-note">
-          <summary>${esc(t.privacyHighlight || "安心して試せる設計です")}</summary>
-          <p>${esc(t.privacyDetail || "詳しいデータの扱いは各ツールでご確認ください。")}</p>
-        </details>
-        <span class="tool-count" data-count-for="${esc(t.repo)}">試された回数: 0回</span>
+  const tools = visibleTools();
+  const groups = [
+    {
+      id: "ready-tools",
+      title: "すぐ使えるツール",
+      note: "日々の授業や学習で、そのまま利用できます。",
+      tools: tools.filter((t) => t.stage !== "prototype"),
+    },
+    {
+      id: "prototype-tools",
+      title: "試作中のツール",
+      note: "開発途中のため、使いながらの感想や改善アイデアを歓迎しています。",
+      tools: tools.filter((t) => t.stage === "prototype"),
+      prototype: true,
+    },
+  ];
+  grid.innerHTML = groups.filter((group) => group.tools.length).map((group) => `
+    <section class="tool-group${group.prototype ? " prototype-group" : ""}" aria-labelledby="${group.id}">
+      <div class="tool-group-heading">
+        <h3 id="${group.id}">${group.title}</h3>
+        <p>${group.note}</p>
       </div>
-    </article>`).join("");
+      <div class="tool-grid">${group.tools.map(toolCard).join("")}</div>
+    </section>`).join("");
 }
 
 function renderContact() {
