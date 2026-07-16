@@ -174,6 +174,7 @@ const SITE_CONFIG = {
     {
       show: true,
       repo: "student-submission-viewer",
+      stage: "prototype",
       name: "提出物連続確認ツール",
       url: "https://github.com/MLabPages/student-submission-viewer",
       description:
@@ -190,6 +191,7 @@ const SITE_CONFIG = {
     {
       show: true,
       repo: "view-pulse",
+      stage: "prototype",
       name: "View Pulse",
       url: "https://mlabpages.github.io/view-pulse/",
       description:
@@ -205,6 +207,7 @@ const SITE_CONFIG = {
     {
       show: true,
       repo: "management-scale-atlas",
+      stage: "prototype",
       name: "経営学・マーケティング概念・尺度アトラス（試作版）",
       url: "https://mlabpages.github.io/management-scale-atlas/",
       description:
