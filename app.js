@@ -276,8 +276,6 @@ async function renderProfile() {
   document.getElementById("name-main").textContent = nameJa || nameEn;
   document.getElementById("name-kana").textContent =
     [kana, nameEn].filter(Boolean).join(" / ");
-  document.title = `M-Lab ツール広場 | ${nameJa || "研究とツール公開"}`;
-
   const aff = (p.affiliations || [])
     .map((a) => [ja(a.affiliation), ja(a.section), ja(a.job)].filter(Boolean).join(" "))
     .join(" ／ ");
