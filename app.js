@@ -135,6 +135,10 @@ function visibleTools() {
   return (SITE_CONFIG.tools || []).filter((t) => t.show && t.repo !== "virtual-ride");
 }
 
+function githubReadmeUrl(t) {
+  return t.readmeUrl || `https://github.com/${SITE_CONFIG.githubUser}/${encodeURIComponent(t.repo)}#readme`;
+}
+
 function toolCard(t) {
   const prototype = t.stage === "prototype";
   return `<article class="tool-card${prototype ? " is-prototype" : ""}" data-tool="${esc(t.repo)}">
@@ -146,7 +150,10 @@ function toolCard(t) {
     <p class="tool-description">${esc(t.description)}</p>
     <div class="tool-preview">${toolPreview(t)}</div>
     <a class="primary-button tool-open" data-tool-id="${esc(t.repo)}" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.cta || "試してみる")}</a>
-    <button class="plain-button discussion-jump" data-tool-id="${esc(t.repo)}" type="button">感想・質問</button>
+    <div class="tool-secondary-actions">
+      <a class="readme-button" href="${esc(githubReadmeUrl(t))}" target="_blank" rel="noopener" aria-label="${esc(t.name)}のGitHub READMEを見る">READMEを見る</a>
+      <button class="plain-button discussion-jump" data-tool-id="${esc(t.repo)}" type="button">感想・質問</button>
+    </div>
     <div class="tool-meta">
       <details class="tool-data-note">
         <summary>${esc(t.privacyHighlight || "安心して試せる設計です")}</summary>
