@@ -220,6 +220,22 @@ const SITE_CONFIG = {
       screenshotLabel: "実際の画面",
       imagePosition: "center 30%",
     },
+    {
+      show: true,
+      repo: "ar-regional-history-hazard",
+      stage: "prototype",
+      name: "AR地域理解・歴史・防災",
+      url: "https://mlabpages.github.io/ar-regional-history-hazard/",
+      description:
+        "現在地の風景に、地域の歴史・まちの変遷・防災情報を重ねて見られるスマートフォン向けWebARプロトタイプです。",
+      tags: ["WebAR", "地域学習", "防災"],
+      category: "地域・防災学習",
+      privacyHighlight: "位置・方角を使って地域情報を表示",
+      privacyDetail: "カメラ・位置情報はAR表示に使用します。利用時に端末の許可が必要です。",
+      screenshot: "assets/ar-regional-history-hazard-screen.png",
+      screenshotLabel: "実際の画面",
+      imagePosition: "center 18%",
+    },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {
       show: false,
