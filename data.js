@@ -58,6 +58,10 @@ const SITE_CONFIG = {
   // 上に書いたものほど先に表示。古いものは消してOK。
   news: [
     {
+      date: "2026-07-25",
+      text: "提出物連続確認ツールをWindowsデスクトップアプリとして公開しました。大判サムネイルで作品を探し、採点・メモまで連続して行えます。",
+    },
+    {
       date: "2026-07-14",
       text: "Google ClassroomのWord／PowerPoint提出物を、レイアウトを保って連続確認できる教員向けツールを公開しました。",
     },
@@ -174,19 +178,18 @@ const SITE_CONFIG = {
     {
       show: true,
       repo: "student-submission-viewer",
-      stage: "prototype",
       name: "提出物連続確認ツール",
-      url: "https://github.com/MLabPages/student-submission-viewer",
+      url: "https://github.com/MLabPages/student-submission-viewer/releases/latest",
       description:
-        "Word／PowerPoint／PDFの提出物をレイアウトを保って連続表示し、採点・メモ・CSV出力まで行えるWindows向けツールです。",
-      tags: ["Windows", "授業支援", "採点"],
+        "Word／PowerPoint／PDFの提出物を自動でPDF化し、大判サムネイルで作品を探しながら、連続確認・採点・メモ・CSV出力まで行えるインストール型Windowsアプリです。",
+      tags: ["Windowsアプリ", "授業支援", "採点"],
       category: "授業支援",
       privacyHighlight: "提出物を送らず、PC上で連続確認",
       privacyDetail: "提出物は外部へ送信せず、利用者のWindows PC上で処理します。",
       screenshot: "assets/submission-viewer-screen.png",
       screenshotLabel: "実際の画面",
       imagePosition: "center 18%",
-      cta: "導入方法を見る",
+      cta: "Windows版をダウンロード",
     },
     {
       show: true,
