@@ -198,10 +198,10 @@ const SITE_CONFIG = {
       name: "View Pulse",
       url: "https://mlabpages.github.io/view-pulse/",
       description:
-        "見ている風景と表情・視線の変化をスマートフォンで同時に記録し、反応が生まれた瞬間を振り返る研究用Webアプリです。",
-      tags: ["Webアプリ", "計測", "研究"],
+        "画像・動画・YouTubeを表示し、内カメ1台で表情とおおまかな視線を端末内解析するWebアプリです。実際の場面を前後カメラで記録するiPhoneネイティブ版とは用途が異なります。",
+      tags: ["Webアプリ", "内カメ", "計測", "研究"],
       category: "計測・可視化",
-      privacyHighlight: "見た場面と反応を端末内で同期",
+      privacyHighlight: "表示コンテンツと内カメ反応を端末内で同期",
       privacyDetail: "表情や視線の推定は端末内で行います。顔動画の保存は利用者が選択できます。",
       screenshot: "assets/view-pulse-screen.png",
       screenshotLabel: "実際の画面",
