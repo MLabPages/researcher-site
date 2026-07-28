@@ -92,6 +92,10 @@ function groupLayoutPreview(compact = false) {
   return `<div class="mini-group-layout"><table aria-label="A列からE列にグループが縦に並ぶ配置図"><thead><tr><th>番号</th>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
 
+function mainFeaturePreview(content) {
+  return `<div class="tool-main-preview"><span>主な機能</span>${content}</div>`;
+}
+
 function toolPreview(tool) {
   const repo = tool.repo;
   if (tool.screenshot) {
@@ -101,32 +105,48 @@ function toolPreview(tool) {
       <figcaption>${esc(tool.screenshotLabel || "実際の画面")}</figcaption>
     </figure>`;
   }
-  if (repo === "class-picker") return groupLayoutPreview(true);
+  if (repo === "class-picker") return mainFeaturePreview(groupLayoutPreview(true));
   if (repo === "Thesis-self-check") {
-    return `<div class="mini-checklist" aria-label="卒論の形式チェック例">
+    return mainFeaturePreview(`<div class="mini-checklist" aria-label="卒論の形式チェック例">
       <div><span>構成の整合性</span><b>OK</b></div>
       <div><span>引用・出典</span><b>OK</b></div>
       <div><span>表記・フォーマット</span><b class="needs-check">確認</b></div>
       <div><span>図表番号・キャプション</span><b>OK</b></div>
-    </div>`;
+    </div>`);
   }
   if (repo === "reaction-meter") {
-    return `<div class="mini-meter" aria-label="身体反応の数値計測例">
+    return mainFeaturePreview(`<div class="mini-meter" aria-label="身体反応の数値計測例">
       <div class="meter-status"><span>カメラ検出</span><strong>計測中</strong></div>
       <label>身体の動き <meter min="0" max="100" value="68">68</meter></label>
       <label>前傾 <meter min="0" max="100" value="43">43</meter></label>
       <label>反応強度 <meter min="0" max="100" value="76">76</meter></label>
       <p>映像は保存・送信しません</p>
-    </div>`;
+    </div>`);
+  }
+  if (repo === "view-pulse") {
+    return mainFeaturePreview(`<div class="mini-pulse" aria-label="View Pulseの表示コンテンツと反応の分析画面例">
+      <div class="pulse-scene"><span>表示コンテンツ</span><b>視線・表情を解析中</b></div>
+      <div class="pulse-analysis">
+        <div><span>注目度</span><strong>78%</strong></div>
+        <div class="pulse-line"><i></i><i></i><i></i><i></i><i></i></div>
+        <small>反応のタイムライン</small>
+      </div>
+    </div>`);
+  }
+  if (repo === "student-submission-viewer") {
+    return mainFeaturePreview(`<div class="mini-submission-viewer" aria-label="提出物を選び、プレビューと採点を行う画面例">
+      <div class="submission-top">提出物 03 / 25 <span>採点・メモ</span></div>
+      <div class="submission-main"><ul><li>01_発表資料.pdf</li><li class="active">02_研究レポート.docx</li><li>03_授業課題.pptx</li></ul><div class="submission-page"><b>研究レポート</b><span>要点を大きく確認</span><em>評価 A</em></div></div>
+    </div>`);
   }
   if (repo === "classroom-office-reviewer") {
-    return `<div class="mini-reviewer" aria-label="提出物を順番に確認する画面例">
+    return mainFeaturePreview(`<div class="mini-reviewer" aria-label="提出物を順番に確認する画面例">
       <div class="reviewer-bar">提出物一覧 <span>3 / 25</span></div>
       <div class="reviewer-body">
         <ul><li>01_山田.docx</li><li class="active">02_鈴木.pptx</li><li>03_佐藤.docx</li></ul>
         <div class="document-page"><strong>発表資料</strong><span>レイアウトを保って表示</span></div>
       </div>
-    </div>`;
+    </div>`);
   }
   return `<div class="mini-generic">${esc(repo)}</div>`;
 }

@@ -104,9 +104,6 @@ const SITE_CONFIG = {
       category: "授業支援",
       privacyHighlight: "名簿の準備なしですぐ使えます",
       privacyDetail: "氏名や名簿データは収集しません。",
-      screenshot: "assets/class-picker-screen.png",
-      screenshotLabel: "実際の画面",
-      imagePosition: "center 24%",
     },
     {
       show: true,
@@ -120,8 +117,8 @@ const SITE_CONFIG = {
       privacyHighlight: "ファイルを送らず、その場でチェック",
       privacyDetail: "論文ファイルはブラウザ内で処理され、外部へ送信されません。",
       screenshot: "assets/thesis-check-screen.png",
-      screenshotLabel: "実際の画面",
-      imagePosition: "center 20%",
+      screenshotLabel: "チェック結果画面",
+      imagePosition: "center 28%",
     },
     {
       show: true,
@@ -134,9 +131,6 @@ const SITE_CONFIG = {
       category: "計測・可視化",
       privacyHighlight: "映像を残さず反応を可視化",
       privacyDetail: "カメラ映像は保存・送信せず、数値データのみを扱います。",
-      screenshot: "assets/reaction-meter-screen.png",
-      screenshotLabel: "実際の画面",
-      imagePosition: "center 27%",
     },
     {
       show: false,
@@ -190,9 +184,6 @@ const SITE_CONFIG = {
       category: "授業支援",
       privacyHighlight: "提出物を送らず、PC上で連続確認",
       privacyDetail: "提出物は外部へ送信せず、利用者のWindows PC上で処理します。",
-      screenshot: "assets/submission-viewer-screen.png",
-      screenshotLabel: "実際の画面",
-      imagePosition: "center 18%",
       cta: "Windows版をダウンロード",
     },
     {
@@ -207,9 +198,6 @@ const SITE_CONFIG = {
       category: "計測・可視化",
       privacyHighlight: "表示コンテンツと内カメ反応を端末内で同期",
       privacyDetail: "表情や視線の推定は端末内で行います。顔動画の保存は利用者が選択できます。",
-      screenshot: "assets/view-pulse-screen.png",
-      screenshotLabel: "実際の画面",
-      imagePosition: "center 38%",
     },
     {
       show: true,
@@ -224,7 +212,7 @@ const SITE_CONFIG = {
       privacyHighlight: "概念探しから尺度比較まで一か所で",
       privacyDetail: "検索や比較はブラウザで行え、研究設計のメモは利用中のブラウザ内に保存されます。",
       screenshot: "assets/scale-atlas-screen.png",
-      screenshotLabel: "実際の画面",
+      screenshotLabel: "検索・比較画面",
       imagePosition: "center 30%",
     },
     {
@@ -240,8 +228,8 @@ const SITE_CONFIG = {
       privacyHighlight: "位置・方角を使って地域情報を表示",
       privacyDetail: "カメラ・位置情報はAR表示に使用します。利用時に端末の許可が必要です。",
       screenshot: "assets/ar-regional-history-hazard-screen.png",
-      screenshotLabel: "実際の画面",
-      imagePosition: "center 18%",
+      screenshotLabel: "ARメイン画面",
+      imagePosition: "center 24%",
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {
