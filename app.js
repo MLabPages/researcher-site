@@ -125,11 +125,11 @@ function toolPreview(tool) {
   }
   if (repo === "view-pulse") {
     return mainFeaturePreview(`<div class="mini-pulse" aria-label="View Pulseの表示コンテンツと反応の分析画面例">
-      <div class="pulse-scene"><span>表示コンテンツ</span><b>視線・表情を解析中</b></div>
+      <div class="pulse-scene"><span>画面上の注目領域</span><div class="pulse-heatmap" aria-hidden="true"><i></i><i></i><i></i></div><b>視線を重ねて可視化</b></div>
       <div class="pulse-analysis">
         <div><span>注目度</span><strong>78%</strong></div>
         <div class="pulse-line"><i></i><i></i><i></i><i></i><i></i></div>
-        <small>反応のタイムライン</small>
+        <small>ヒートマップと反応の推移</small>
       </div>
     </div>`);
   }
