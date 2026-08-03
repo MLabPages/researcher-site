@@ -224,17 +224,14 @@ const SITE_CONFIG = {
       show: true,
       repo: "ar-regional-history-hazard",
       stage: "prototype",
-      name: "AR地域理解・歴史・防災",
+      name: "古地図でたどる地域の歴史・防災",
       url: "https://mlabpages.github.io/ar-regional-history-hazard/",
       description:
-        "現在地の風景に、地域の歴史・まちの変遷・防災情報を重ねて見られるスマートフォン向けWebARプロトタイプです。",
-      tags: ["WebAR", "地域学習", "防災"],
+        "古地図・年代別航空写真と現在の地図を重ね、地域の歴史やまちの変遷、防災情報を比べて探るスマートフォン向けWebアプリです。現地AR表示は現在調整中です。",
+      tags: ["Webアプリ", "古地図", "防災"],
       category: "地域・防災学習",
-      privacyHighlight: "位置・方角を使って地域情報を表示",
-      privacyDetail: "カメラ・位置情報はAR表示に使用します。利用時に端末の許可が必要です。",
-      screenshot: "assets/ar-regional-history-hazard-screen.png",
-      screenshotLabel: "ARメイン画面",
-      imagePosition: "center 24%",
+      privacyHighlight: "地図で地域の過去と現在を比較",
+      privacyDetail: "カメラ・位置情報は、調整中の現地AR表示を使う場合だけ利用します。",
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {

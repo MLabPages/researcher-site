@@ -148,6 +148,16 @@ function toolPreview(tool) {
       </div>
     </div>`);
   }
+  if (repo === "ar-regional-history-hazard") {
+    return mainFeaturePreview(`<div class="mini-history-map" aria-label="古地図と現在地図を比較する画面例">
+      <div class="history-map-toolbar"><span>年代・今昔比較</span><b>スワイプ比較</b></div>
+      <div class="history-map-canvas">
+        <div class="history-map-past"><small>昭和初期</small><strong>1936–42</strong><i></i><i></i><i></i></div>
+        <div class="history-map-now"><small>現在地図</small><strong>大阪城周辺</strong><i></i><i></i><i></i></div>
+        <span class="history-map-divider" aria-hidden="true">↔</span>
+      </div>
+    </div>`);
+  }
   return `<div class="mini-generic">${esc(repo)}</div>`;
 }
 
