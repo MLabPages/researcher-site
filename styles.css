@@ -907,7 +907,7 @@ textarea:focus-visible {
 
 .tool-card {
   display: grid;
-  grid-template-rows: auto auto minmax(54px, auto) 172px auto auto auto;
+  grid-template-rows: auto auto auto 172px auto auto auto;
   align-content: start;
   min-width: 0;
   padding: 16px;
@@ -946,10 +946,7 @@ textarea:focus-visible {
   color: var(--color-text-soft);
   font-size: 0.83rem;
   line-height: 1.65;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  text-wrap: pretty;
 }
 
 .tool-preview {
