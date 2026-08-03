@@ -163,10 +163,10 @@ const SITE_CONFIG = {
     {
       show: true,
       repo: "classroom-office-reviewer",
-      name: "Classroom提出物連続表示",
+      name: "Classroom提出物レビューア（CRW）",
       url: "https://github.com/MLabPages/classroom-office-reviewer",
       description:
-        "Google ClassroomでWord／PowerPoint提出物を、レイアウトを保って次々確認・全画面発表できるWindows向け教員支援ツールです。導入手順とダウンロードを公開しています。",
+        "Google ClassroomのWord／PowerPoint／Googleドキュメント／Googleスライドの提出物を、できるだけ元のレイアウトを保ったPDFとして採点画面内のビューアーで連続確認・全画面発表できるWindows向けChrome拡張です。",
       tags: ["Windows", "授業支援", "Classroom"],
       category: "研究・教育支援",
       privacyHighlight: "PC上で提出物をスムーズに確認",
