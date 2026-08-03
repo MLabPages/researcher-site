@@ -172,6 +172,9 @@ const SITE_CONFIG = {
       privacyHighlight: "PC上で提出物をスムーズに確認",
       privacyDetail: "提出物は利用者のPC上で扱います。",
       cta: "導入方法を見る",
+      // 配布版があるツールだけ、バージョンと最終更新日を表示できます。
+      version: "v0.9.2",
+      updatedAt: "2026-08-03",
     },
     {
       show: true,
@@ -185,6 +188,8 @@ const SITE_CONFIG = {
       privacyHighlight: "提出物を送らず、PC上で連続確認",
       privacyDetail: "提出物は外部へ送信せず、利用者のWindows PC上で処理します。",
       cta: "Windows版をダウンロード",
+      version: "v1.5.0",
+      updatedAt: "2026-07-30",
     },
     {
       show: true,
