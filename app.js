@@ -159,6 +159,13 @@ function githubReadmeUrl(t) {
   return t.readmeUrl || `https://github.com/${SITE_CONFIG.githubUser}/${encodeURIComponent(t.repo)}#readme`;
 }
 
+function toolReleaseInfo(t) {
+  const details = [];
+  if (t.version) details.push(`<span>バージョン ${esc(t.version)}</span>`);
+  if (t.updatedAt) details.push(`<span>最終更新 ${esc(fmtDate(t.updatedAt))}</span>`);
+  return details.length ? `<p class="tool-release-info">${details.join("<i aria-hidden=\"true\">・</i>")}</p>` : "";
+}
+
 function toolCard(t) {
   const prototype = t.stage === "prototype";
   return `<article class="tool-card${prototype ? " is-prototype" : ""}" data-tool="${esc(t.repo)}">
@@ -168,6 +175,7 @@ function toolCard(t) {
     </div>
     <h3>${esc(t.name)}</h3>
     <p class="tool-description">${esc(t.description)}</p>
+    ${toolReleaseInfo(t)}
     <div class="tool-preview">${toolPreview(t)}</div>
     <a class="primary-button tool-open" data-tool-id="${esc(t.repo)}" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.cta || "試してみる")}</a>
     <div class="tool-secondary-actions">
