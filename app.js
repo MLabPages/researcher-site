@@ -37,6 +37,12 @@ function fmtDate(s) {
   return fmtYm(s);
 }
 
+function fmtShortDate(s) {
+  if (!s) return "";
+  const [y, m, d] = String(s).split("-");
+  return d ? `${y}.${Number(m)}.${Number(d)}` : fmtYm(s);
+}
+
 // ---- researchmap API(キャッシュつき取得)----
 
 async function fetchRm(path) {
@@ -172,7 +178,7 @@ function githubReadmeUrl(t) {
 function toolReleaseInfo(t) {
   const details = [];
   if (t.version) details.push(`<span>v${esc(String(t.version).replace(/^v/i, ""))}</span>`);
-  if (t.updatedAt) details.push(`<span>更新 ${esc(fmtDate(t.updatedAt))}</span>`);
+  if (t.updatedAt) details.push(`<span>更新 ${esc(fmtShortDate(t.updatedAt))}</span>`);
   return details.length ? `<span class="tool-release-info">${details.join("<i aria-hidden=\"true\">・</i>")}</span>` : "";
 }
 

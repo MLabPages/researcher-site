@@ -935,6 +935,7 @@ textarea:focus-visible {
 .tool-card-labels .tool-category { margin-bottom: 10px; }
 
 .tool-card h3 {
+  min-height: 3.05rem;
   margin: 0 0 6px;
   color: var(--color-accent-dark);
   font-size: 1.08rem;
