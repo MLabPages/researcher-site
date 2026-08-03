@@ -231,7 +231,7 @@ a:hover { opacity: 0.8; }
   color: var(--color-text-soft);
 }
 
-.tool-release-info {
+.tool-card .tool-release-info {
   display: flex;
   flex-wrap: wrap;
   gap: 2px 6px;
@@ -240,7 +240,12 @@ a:hover { opacity: 0.8; }
   font-size: 0.78rem;
 }
 
-.tool-release-info i {
+.tool-card .tool-release-info.is-empty {
+  min-height: 0;
+  margin: 0;
+}
+
+.tool-card .tool-release-info i {
   color: var(--color-border);
   font-style: normal;
 }

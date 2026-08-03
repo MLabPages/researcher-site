@@ -163,7 +163,7 @@ function toolReleaseInfo(t) {
   const details = [];
   if (t.version) details.push(`<span>バージョン ${esc(t.version)}</span>`);
   if (t.updatedAt) details.push(`<span>最終更新 ${esc(fmtDate(t.updatedAt))}</span>`);
-  return details.length ? `<p class="tool-release-info">${details.join("<i aria-hidden=\"true\">・</i>")}</p>` : "";
+  return `<p class="tool-release-info${details.length ? "" : " is-empty"}"${details.length ? "" : " aria-hidden=\"true\""}>${details.join("<i aria-hidden=\"true\">・</i>")}</p>`;
 }
 
 function toolCard(t) {
