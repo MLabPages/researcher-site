@@ -99,7 +99,7 @@ const SITE_CONFIG = {
       name: "グループ抽選ツール",
       url: "https://mlabpages.github.io/class-picker/",
       description:
-        "授業などでグループ分けをするための抽選サイトです。参加コードでクラスを分け、男女均等での振り分けにも対応します。",
+        "授業や研修でグループ分けをするための抽選サイトです。参加コードでクラスを分け、男女均等などの条件にも対応します。結果はその場で確認でき、名簿の準備なしですぐ使えます。",
       tags: ["Webアプリ", "授業支援"],
       category: "授業支援",
       privacyHighlight: "名簿の準備なしですぐ使えます",
@@ -111,7 +111,7 @@ const SITE_CONFIG = {
       name: "卒論セルフチェック",
       url: "https://thesis-self-check.vercel.app",
       description:
-        "卒業論文の形式（文字数・見出し・引用など）を提出前に自分でチェックできるサイトです。",
+        "卒業論文の文字数・見出し・引用などを提出前に確認できるセルフチェックサイトです。ファイルを送らず、ブラウザ内で形式面の見落としを確かめ、提出前に自分で整えられます。",
       tags: ["Webアプリ", "卒論支援"],
       category: "学習サポート",
       privacyHighlight: "ファイルを送らず、その場でチェック",
@@ -126,7 +126,7 @@ const SITE_CONFIG = {
       name: "リアクションメーター",
       url: "https://mlabpages.github.io/reaction-meter/",
       description:
-        "カメラで身体反応を計測・記録するWebアプリです。映像は保存・送信せず、数値データのみを扱います。",
+        "カメラで身体反応を計測・記録するWebアプリです。映像は保存・送信せず、身体の動きや前傾などの数値データを確認・記録できます。授業や実験で反応の変化を振り返れます。",
       tags: ["Webアプリ", "計測"],
       category: "計測・可視化",
       privacyHighlight: "映像を残さず反応を可視化",
@@ -166,7 +166,7 @@ const SITE_CONFIG = {
       name: "Classroom提出物レビューア（CRW）",
       url: "https://github.com/MLabPages/classroom-office-reviewer",
       description:
-        "Google ClassroomのWord／PowerPoint／Googleドキュメント／Googleスライドの提出物を、できるだけ元のレイアウトを保ったPDFとして採点画面内のビューアーで連続確認・全画面発表できるWindows向けChrome拡張です。",
+        "Google Classroomの提出物を、できるだけ元のレイアウトを保ったPDFとして連続確認・全画面発表できるWindows向けChrome拡張です。Word／PowerPoint／Google形式に対応します。",
       tags: ["Windows", "授業支援", "Classroom"],
       category: "研究・教育支援",
       privacyHighlight: "PC上で提出物をスムーズに確認",
@@ -182,7 +182,7 @@ const SITE_CONFIG = {
       name: "提出物連続確認ツール",
       url: "https://github.com/MLabPages/student-submission-viewer/releases/latest",
       description:
-        "Office／PDF／画像の提出物をまとめて読み込み、大判サムネイルで探しながら連続確認・採点できるWindowsアプリです。未対応形式も消さずに明示します。",
+        "Office／PDF／画像の提出物をまとめて読み込み、大判サムネイルで探しながら連続確認・採点できるWindowsアプリです。未対応形式も消さずに一覧で知らせます。",
       tags: ["Windowsアプリ", "画像対応", "見落とし防止"],
       category: "授業支援",
       privacyHighlight: "提出物を送らず、PC上で連続確認",
@@ -198,7 +198,7 @@ const SITE_CONFIG = {
       name: "View Pulse",
       url: "https://mlabpages.github.io/view-pulse/",
       description:
-        "画像・動画・YouTubeを表示し、内カメ1台で表情とおおまかな視線を端末内解析するWebアプリです。実際の場面を前後カメラで記録するiPhoneネイティブ版とは用途が異なります。",
+        "画像・動画・YouTubeを表示し、内カメで表情とおおまかな視線を端末内で分析するWebアプリです。表示内容と反応の変化を確かめ、研究や試作に活用できます。",
       tags: ["Webアプリ", "内カメ", "計測", "研究"],
       category: "計測・可視化",
       privacyHighlight: "表示コンテンツと内カメ反応を端末内で同期",
@@ -211,7 +211,7 @@ const SITE_CONFIG = {
       name: "経営学・マーケティング概念・尺度アトラス（試作版）",
       url: "https://mlabpages.github.io/management-scale-atlas/",
       description:
-        "経営学・マーケティングの概念と測定尺度を、日本語で検索・比較し、研究設計につなげるための試作版データベースです。",
+        "経営学・マーケティングの概念と測定尺度を、日本語で検索・比較して研究設計につなげる試作版データベースです。関連する概念や尺度を見比べながら探せます。",
       tags: ["Webアプリ", "尺度", "研究支援"],
       category: "研究支援",
       privacyHighlight: "概念探しから尺度比較まで一か所で",
@@ -227,7 +227,7 @@ const SITE_CONFIG = {
       name: "古地図でたどる地域の歴史・防災",
       url: "https://mlabpages.github.io/ar-regional-history-hazard/",
       description:
-        "古地図・年代別航空写真と現在の地図を重ね、地域の歴史やまちの変遷、防災情報を比べて探るスマートフォン向けWebアプリです。現地AR表示は現在調整中です。",
+        "古地図・年代別航空写真と現在の地図を重ね、地域の歴史やまちの変遷、防災情報を比べて探るスマートフォン向けWebアプリです。スワイプ比較もできます。",
       tags: ["Webアプリ", "古地図", "防災"],
       category: "地域・防災学習",
       privacyHighlight: "地図で地域の過去と現在を比較",
