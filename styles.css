@@ -233,16 +233,15 @@ a:hover { opacity: 0.8; }
 
 .tool-card .tool-release-info {
   display: flex;
+  justify-content: end;
   flex-wrap: wrap;
-  gap: 2px 6px;
-  margin: -2px 0 12px;
+  gap: 1px 4px;
+  margin-top: 2px;
   color: var(--color-text-soft);
-  font-size: 0.78rem;
-}
-
-.tool-card .tool-release-info.is-empty {
-  min-height: 0;
-  margin: 0;
+  font-size: 0.6rem;
+  line-height: 1.35;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .tool-card .tool-release-info i {
@@ -882,6 +881,13 @@ textarea:focus-visible {
   gap: 8px;
 }
 
+.tool-card-status {
+  display: grid;
+  justify-items: end;
+  gap: 4px;
+  min-width: 0;
+}
+
 .stage-badge {
   flex: 0 0 auto;
   padding: 3px 8px;
@@ -901,7 +907,7 @@ textarea:focus-visible {
 
 .tool-card {
   display: grid;
-  grid-template-rows: auto auto minmax(54px, auto) auto 172px auto auto auto;
+  grid-template-rows: auto auto minmax(54px, auto) 172px auto auto auto;
   align-content: start;
   min-width: 0;
   padding: 16px;
@@ -1325,7 +1331,7 @@ textarea:focus-visible {
   .tool-group-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
   .prototype-group { padding: 16px; }
   .tool-grid { grid-template-columns: 1fr; }
-  .tool-card { grid-template-rows: auto auto auto auto 210px auto auto auto; }
+  .tool-card { grid-template-rows: auto auto auto 210px auto auto auto; }
   .activity-strip { align-items: flex-start; flex-direction: column; gap: 4px; }
   .community-section { grid-template-columns: 1fr; gap: 28px; }
   .community-board { padding-left: 0; border-left: 0; }

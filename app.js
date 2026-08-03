@@ -171,9 +171,9 @@ function githubReadmeUrl(t) {
 
 function toolReleaseInfo(t) {
   const details = [];
-  if (t.version) details.push(`<span>バージョン ${esc(t.version)}</span>`);
-  if (t.updatedAt) details.push(`<span>最終更新 ${esc(fmtDate(t.updatedAt))}</span>`);
-  return `<p class="tool-release-info${details.length ? "" : " is-empty"}"${details.length ? "" : " aria-hidden=\"true\""}>${details.join("<i aria-hidden=\"true\">・</i>")}</p>`;
+  if (t.version) details.push(`<span>v${esc(String(t.version).replace(/^v/i, ""))}</span>`);
+  if (t.updatedAt) details.push(`<span>更新 ${esc(fmtDate(t.updatedAt))}</span>`);
+  return details.length ? `<span class="tool-release-info">${details.join("<i aria-hidden=\"true\">・</i>")}</span>` : "";
 }
 
 function toolCard(t) {
@@ -181,11 +181,13 @@ function toolCard(t) {
   return `<article class="tool-card${prototype ? " is-prototype" : ""}" data-tool="${esc(t.repo)}">
     <div class="tool-card-labels">
       <p class="tool-category">${esc(t.category || t.tags?.[0] || "公開ツール")}</p>
-      ${prototype ? `<span class="stage-badge">試作中</span>` : ""}
+      <div class="tool-card-status">
+        ${toolReleaseInfo(t)}
+        ${prototype ? `<span class="stage-badge">試作中</span>` : ""}
+      </div>
     </div>
     <h3>${esc(t.name)}</h3>
     <p class="tool-description">${esc(t.description)}</p>
-    ${toolReleaseInfo(t)}
     <div class="tool-preview">${toolPreview(t)}</div>
     <a class="primary-button tool-open" data-tool-id="${esc(t.repo)}" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.cta || "試してみる")}</a>
     <div class="tool-secondary-actions">
