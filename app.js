@@ -30,17 +30,27 @@ function fmtYm(s) {
   return m ? `${y}年${Number(m)}月` : `${y}年`;
 }
 
+function dateParts(s) {
+  const value = String(s || "");
+  if (value.includes("T")) {
+    const date = new Date(value);
+    if (!Number.isNaN(date.getTime())) return [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+  }
+  const [y, m, d] = value.slice(0, 10).split("-");
+  return d ? [Number(y), Number(m), Number(d)] : [];
+}
+
 function fmtDate(s) {
   if (!s) return "";
-  const [y, m, d] = String(s).split("-");
-  if (d) return `${y}年${Number(m)}月${Number(d)}日`;
+  const [y, m, d] = dateParts(s);
+  if (d) return `${y}年${m}月${d}日`;
   return fmtYm(s);
 }
 
 function fmtShortDate(s) {
   if (!s) return "";
-  const [y, m, d] = String(s).split("-");
-  return d ? `${y}.${Number(m)}.${Number(d)}` : fmtYm(s);
+  const [y, m, d] = dateParts(s);
+  return d ? `${y}.${m}.${d}` : fmtYm(s);
 }
 
 // ---- researchmap API(キャッシュつき取得)----
@@ -175,11 +185,56 @@ function githubReadmeUrl(t) {
   return t.readmeUrl || `https://github.com/${SITE_CONFIG.githubUser}/${encodeURIComponent(t.repo)}#readme`;
 }
 
-function toolReleaseInfo(t) {
+function toolReleaseInfoValues(version, updatedAt, repo = "") {
   const details = [];
-  if (t.version) details.push(`<span>v${esc(String(t.version).replace(/^v/i, ""))}</span>`);
-  if (t.updatedAt) details.push(`<span>更新 ${esc(fmtShortDate(t.updatedAt))}</span>`);
-  return details.length ? `<span class="tool-release-info">${details.join("<i aria-hidden=\"true\">・</i>")}</span>` : "";
+  if (version) details.push(`<span>v${esc(String(version).replace(/^v/i, ""))}</span>`);
+  if (updatedAt) details.push(`<span>更新 ${esc(fmtShortDate(updatedAt))}</span>`);
+  const syncAttribute = repo ? ` data-release-for="${esc(repo)}"` : "";
+  return details.length ? `<span class="tool-release-info"${syncAttribute}>${details.join("<i aria-hidden=\"true\">・</i>")}</span>` : "";
+}
+
+function toolReleaseInfo(t) {
+  return toolReleaseInfoValues(t.version, t.updatedAt, t.releaseSync ? t.repo : "");
+}
+
+function replaceReleaseInfo(target, version, updatedAt) {
+  const details = [];
+  if (version) {
+    const versionElement = document.createElement("span");
+    versionElement.textContent = `v${String(version).replace(/^v/i, "")}`;
+    details.push(versionElement);
+  }
+  if (updatedAt) {
+    const updatedElement = document.createElement("span");
+    updatedElement.textContent = `更新 ${fmtShortDate(updatedAt)}`;
+    details.push(updatedElement);
+  }
+  target.replaceChildren(...details.flatMap((detail, index) => {
+    if (index === 0) return [detail];
+    const separator = document.createElement("i");
+    separator.setAttribute("aria-hidden", "true");
+    separator.textContent = "・";
+    return [separator, detail];
+  }));
+}
+
+async function refreshReleaseInfo() {
+  const tools = visibleTools().filter((tool) => tool.releaseSync && tool.repo);
+  await Promise.all(tools.map(async (tool) => {
+    try {
+      const response = await fetch(`https://api.github.com/repos/${encodeURIComponent(SITE_CONFIG.githubUser)}/${encodeURIComponent(tool.repo)}/releases/latest`, {
+        headers: { Accept: "application/vnd.github+json" },
+        cache: "no-store"
+      });
+      if (!response.ok) return;
+      const release = await response.json();
+      if (!release.tag_name) return;
+      const target = document.querySelector(`[data-release-for="${tool.repo}"]`);
+      if (target) replaceReleaseInfo(target, release.tag_name, release.published_at || release.created_at || tool.updatedAt);
+    } catch {
+      // GitHubへ接続できない場合は、data.js の表示値をそのまま使う。
+    }
+  }));
 }
 
 function toolCard(t) {
@@ -981,6 +1036,7 @@ async function renderAdminPanel() {
 renderInterests();
 renderNews();
 renderTools();
+refreshReleaseInfo();
 renderContact();
 initCommunity().catch((e) => console.error(e));
 

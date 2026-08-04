@@ -172,9 +172,10 @@ const SITE_CONFIG = {
       privacyHighlight: "PC上で提出物をスムーズに確認",
       privacyDetail: "提出物は利用者のPC上で扱います。",
       cta: "導入方法を見る",
-      // 配布版があるツールだけ、バージョンと最終更新日を表示できます。
+      // GitHub Releaseから自動取得できないときの表示値。releaseSync: true で公開時に最新Releaseへ更新します。
       version: "v0.9.2",
       updatedAt: "2026-08-03",
+      releaseSync: true,
     },
     {
       show: true,
@@ -190,6 +191,7 @@ const SITE_CONFIG = {
       cta: "Windows版をダウンロード",
       version: "v1.5.0",
       updatedAt: "2026-07-30",
+      releaseSync: true,
     },
     {
       show: true,
