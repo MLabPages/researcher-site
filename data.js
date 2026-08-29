@@ -58,6 +58,10 @@ const SITE_CONFIG = {
   // 上に書いたものほど先に表示。古いものは消してOK。
   news: [
     {
+      date: "2026-08-26",
+      text: "論文PDFファイル名整理ツールをWindowsアプリとして公開しました。PDF本体はPC内で扱い、確認した候補だけを安全に整理・元に戻せます。",
+    },
+    {
       date: "2026-07-26",
       text: "提出物連続確認ツールが画像・Excel・OpenDocumentなどに対応しました。未対応形式も一覧から消さず、見落としを防ぎます。",
     },
@@ -234,6 +238,22 @@ const SITE_CONFIG = {
       category: "地域・防災学習",
       privacyHighlight: "地図で地域の過去と現在を比較",
       privacyDetail: "カメラ・位置情報は、調整中の現地AR表示を使う場合だけ利用します。",
+    },
+    {
+      show: true,
+      repo: "paper-pdf-renamer",
+      name: "論文PDFファイル名整理",
+      url: "https://github.com/MLabPages/paper-pdf-renamer/releases/latest",
+      description:
+        "保存した論文PDFを、書誌情報を確認しながら分かりやすいファイル名へ整理するWindowsアプリです。候補を確認してから実行でき、直近の変更は元に戻せます。",
+      tags: ["Windowsアプリ", "論文整理", "研究支援"],
+      category: "研究支援",
+      privacyHighlight: "PDF本体はPC内で扱い、確認してから整理",
+      privacyDetail: "PDF本体は外部へ送信しません。書誌情報の照合時だけ、DOIやタイトルなどの文字列を外部サービスへ送ります。",
+      cta: "Windows版をダウンロード",
+      version: "v0.1.0",
+      updatedAt: "2026-08-26",
+      releaseSync: true,
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {
