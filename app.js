@@ -89,92 +89,27 @@ function renderNews() {
     list.innerHTML = `<li><span class="news-date">—</span><span>お知らせはまだありません。</span></li>`;
     return;
   }
-  list.innerHTML = items
-    .map((n) => `<li><span class="news-date">${esc(fmtDate(n.date))}</span><span>${esc(n.text)}</span></li>`)
+  const newsItem = (n) => `<li><span class="news-date">${esc(fmtDate(n.date))}</span><span>${esc(n.text)}</span></li>`;
+  list.innerHTML = items.slice(0, 3)
+    .map(newsItem)
     .join("");
+  const archive = document.getElementById("news-archive");
+  archive.hidden = items.length <= 3;
+  document.getElementById("news-archive-list").innerHTML = items.slice(3).map(newsItem).join("");
 }
 
-function groupLayoutPreview(compact = false) {
-  const rows = compact ? 4 : 6;
-  const cols = ["A", "B", "C", "D", "E"];
-  const head = cols.map((c) => `<th scope="col">${c}列</th>`).join("");
-  const body = Array.from({ length: rows }, (_, row) => {
-    const cells = cols.map((c, col) => {
-      const empty = row === 5 && col > 0;
-      return `<td>${empty ? "—" : `${c}${row + 1}`}</td>`;
-    }).join("");
-    return `<tr><th scope="row">${row + 1}</th>${cells}</tr>`;
-  }).join("");
-  return `<div class="mini-group-layout"><table aria-label="A列からE列にグループが縦に並ぶ配置図"><thead><tr><th>番号</th>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
-}
+const arrowIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>';
+const expandIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7"/></svg>';
 
-function mainFeaturePreview(content) {
-  return `<div class="tool-main-preview"><span>主な機能</span>${content}</div>`;
-}
-
-function toolPreview(tool) {
-  const repo = tool.repo;
-  if (tool.screenshot) {
-    const position = esc(tool.imagePosition || "center");
-    return `<figure class="tool-screen">
-      <img src="${esc(tool.screenshot)}" alt="${esc(tool.name)}の実際の画面" loading="lazy" style="object-position:${position}">
-      <figcaption>${esc(tool.screenshotLabel || "実際の画面")}</figcaption>
-    </figure>`;
-  }
-  if (repo === "class-picker") return mainFeaturePreview(groupLayoutPreview(true));
-  if (repo === "Thesis-self-check") {
-    return mainFeaturePreview(`<div class="mini-checklist" aria-label="卒論の形式チェック例">
-      <div><span>構成の整合性</span><b>OK</b></div>
-      <div><span>引用・出典</span><b>OK</b></div>
-      <div><span>表記・フォーマット</span><b class="needs-check">確認</b></div>
-      <div><span>図表番号・キャプション</span><b>OK</b></div>
-    </div>`);
-  }
-  if (repo === "reaction-meter") {
-    return mainFeaturePreview(`<div class="mini-meter" aria-label="身体反応の数値計測例">
-      <div class="meter-status"><span>カメラ検出</span><strong>計測中</strong></div>
-      <label>身体の動き <meter min="0" max="100" value="68">68</meter></label>
-      <label>前傾 <meter min="0" max="100" value="43">43</meter></label>
-      <label>反応強度 <meter min="0" max="100" value="76">76</meter></label>
-      <p>映像は保存・送信しません</p>
-    </div>`);
-  }
-  if (repo === "view-pulse") {
-    return mainFeaturePreview(`<div class="mini-pulse" aria-label="View Pulseの表示コンテンツと反応の分析画面例">
-      <div class="pulse-scene"><span>画面上の注目領域</span><div class="pulse-heatmap" aria-hidden="true"><i></i><i></i><i></i></div><b>視線を重ねて可視化</b></div>
-      <div class="pulse-analysis">
-        <div><span>注目度</span><strong>78%</strong></div>
-        <div class="pulse-line"><i></i><i></i><i></i><i></i><i></i></div>
-        <small>ヒートマップと反応の推移</small>
-      </div>
-    </div>`);
-  }
-  if (repo === "student-submission-viewer") {
-    return mainFeaturePreview(`<div class="mini-submission-viewer" aria-label="提出物を選び、プレビューと採点を行う画面例">
-      <div class="submission-top">提出物 03 / 25 <span>採点・メモ</span></div>
-      <div class="submission-main"><ul><li>01_発表資料.pdf</li><li class="active">02_研究レポート.docx</li><li>03_授業課題.pptx</li></ul><div class="submission-page"><b>研究レポート</b><span>要点を大きく確認</span><em>評価 A</em></div></div>
-    </div>`);
-  }
-  if (repo === "classroom-office-reviewer") {
-    return mainFeaturePreview(`<div class="mini-reviewer" aria-label="提出物を順番に確認する画面例">
-      <div class="reviewer-bar">提出物一覧 <span>3 / 25</span></div>
-      <div class="reviewer-body">
-        <ul><li>01_山田.docx</li><li class="active">02_鈴木.pptx</li><li>03_佐藤.docx</li></ul>
-        <div class="document-page"><strong>発表資料</strong><span>レイアウトを保って表示</span></div>
-      </div>
-    </div>`);
-  }
-  if (repo === "ar-regional-history-hazard") {
-    return mainFeaturePreview(`<div class="mini-history-map" aria-label="古地図と現在地図を比較する画面例">
-      <div class="history-map-toolbar"><span>年代・今昔比較</span><b>スワイプ比較</b></div>
-      <div class="history-map-canvas">
-        <div class="history-map-past"><small>昭和初期</small><strong>1936–42</strong><i></i><i></i><i></i></div>
-        <div class="history-map-now"><small>現在地図</small><strong>大阪城周辺</strong><i></i><i></i><i></i></div>
-        <span class="history-map-divider" aria-hidden="true">↔</span>
-      </div>
-    </div>`);
-  }
-  return `<div class="mini-generic">${esc(repo)}</div>`;
+function toolPreview(tool, featured = false) {
+  if (!tool.screenshot) return '<p class="screen-unavailable">操作画面は準備中です。</p>';
+  return `<figure class="tool-screen">
+    <button type="button" class="screen-button" data-screen="${esc(tool.repo)}" aria-label="${esc(tool.name)}の画面を拡大">
+      <img src="${esc(tool.screenshot)}" alt="${esc(tool.name)}：${esc(tool.screenshotLabel || "操作画面")}" loading="${featured ? "eager" : "lazy"}" ${featured ? 'fetchpriority="high"' : ""} decoding="async" width="1440" height="900" style="object-position:${esc(tool.imagePosition || "center top")}">
+      <span class="screen-expand">画面を拡大 ${expandIcon}</span>
+    </button>
+    <figcaption>${esc(tool.screenshotLabel || "実際の操作画面")}</figcaption>
+  </figure>`;
 }
 
 function visibleTools() {
@@ -240,64 +175,111 @@ async function refreshReleaseInfo() {
 function toolCard(t) {
   const prototype = t.stage === "prototype";
   return `<article class="tool-card${prototype ? " is-prototype" : ""}" data-tool="${esc(t.repo)}">
-    <div class="tool-card-labels">
-      <p class="tool-category">${esc(t.category || t.tags?.[0] || "公開ツール")}</p>
-      <div class="tool-card-status">
-        ${toolReleaseInfo(t)}
-        ${prototype ? `<span class="stage-badge">試作中</span>` : ""}
+    ${toolPreview(t)}
+    <div class="tool-card-labels"><p class="tool-platform">${esc(t.platform || t.tags?.[0] || "アプリ")}</p>${prototype ? '<span class="stage-badge">試作中</span>' : ""}</div>
+    <h3>${esc(t.name)}</h3>
+    <p class="tool-description">${esc(t.summary || t.description)}</p>
+    <div class="tool-actions">
+      <a class="tool-open app-link" data-tool-id="${esc(t.repo)}" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.cta || "アプリを開く")} ${arrowIcon}</a>
+      <div class="tool-secondary-actions">
+        <a class="readme-button" href="${esc(githubReadmeUrl(t))}" target="_blank" rel="noopener" aria-label="${esc(t.name)}のGitHub READMEを見る">README</a>
+        <button class="plain-button discussion-jump" data-tool-id="${esc(t.repo)}" type="button">感想・質問</button>
       </div>
     </div>
-    <h3>${esc(t.name)}</h3>
-    <p class="tool-description">${esc(t.description)}</p>
-    <div class="tool-preview">${toolPreview(t)}</div>
-    <a class="primary-button tool-open" data-tool-id="${esc(t.repo)}" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.cta || "試してみる")}</a>
-    <div class="tool-secondary-actions">
-      <a class="readme-button" href="${esc(githubReadmeUrl(t))}" target="_blank" rel="noopener" aria-label="${esc(t.name)}のGitHub READMEを見る">READMEを見る</a>
-      <button class="plain-button discussion-jump" data-tool-id="${esc(t.repo)}" type="button">感想・質問</button>
-    </div>
     <div class="tool-meta">
-      <details class="tool-data-note">
-        <summary>${esc(t.privacyHighlight || "安心して試せる設計です")}</summary>
-        <p>${esc(t.privacyDetail || "詳しいデータの扱いは各ツールでご確認ください。")}</p>
-      </details>
-      <span class="tool-count" data-count-for="${esc(t.repo)}">試された回数: 0回</span>
+      <details class="tool-data-note"><summary>できること・データの扱い</summary><p>${esc(t.description)}</p><p>${esc(t.privacyDetail || "詳しくはアプリのREADMEをご確認ください。")}</p>${toolReleaseInfo(t)}</details>
+      <span class="tool-count" data-count-for="${esc(t.repo)}">集計準備中</span>
     </div>
   </article>`;
 }
 
+let activeToolFilter = "all";
+
 function renderTools() {
   const lead = document.getElementById("tools-lead");
   if (lead) lead.textContent = SITE_CONFIG.text?.toolsLead || "";
-
-  const feature = document.getElementById("featured-preview");
-  if (feature) feature.innerHTML = groupLayoutPreview();
-
+  const tools = visibleTools();
+  const featured = tools.find((t) => t.repo === SITE_CONFIG.featuredRepo) || tools.find((t) => t.stage !== "prototype");
+  const feature = document.getElementById("featured-tool");
+  if (feature && featured) {
+    feature.innerHTML = `${toolPreview(featured, true)}<div class="featured-copy">
+      <h2 id="featured-title">${esc(featured.name)}</h2>
+      <p>${esc(featured.featuredCopy || featured.summary || featured.description)}</p>
+      <a class="app-link tool-open" data-tool-id="${esc(featured.repo)}" href="${esc(featured.url)}" target="_blank" rel="noopener">${esc(featured.cta || "使ってみる")} ${arrowIcon}</a>
+    </div>`;
+  }
   const grid = document.getElementById("tool-grid");
   if (!grid) return;
-  const tools = visibleTools();
-  const groups = [
-    {
-      id: "ready-tools",
-      title: "すぐ使えるツール",
-      note: "日々の授業や学習で、そのまま利用できます。",
-      tools: tools.filter((t) => t.stage !== "prototype"),
-    },
-    {
-      id: "prototype-tools",
-      title: "試作中のツール",
-      note: "開発途中のため、使いながらの感想や改善アイデアを歓迎しています。",
-      tools: tools.filter((t) => t.stage === "prototype"),
-      prototype: true,
-    },
-  ];
-  grid.innerHTML = groups.filter((group) => group.tools.length).map((group) => `
-    <section class="tool-group${group.prototype ? " prototype-group" : ""}" aria-labelledby="${group.id}">
-      <div class="tool-group-heading">
-        <h3 id="${group.id}">${group.title}</h3>
-        <p>${group.note}</p>
-      </div>
-      <div class="tool-grid">${group.tools.map(toolCard).join("")}</div>
-    </section>`).join("");
+  const ready = tools.filter((t) => t.stage !== "prototype");
+  const prototypes = tools.filter((t) => t.stage === "prototype");
+  grid.innerHTML = `<div class="tool-grid ready-grid">${ready.map(toolCard).join("")}</div>
+    ${prototypes.length ? `<details class="prototype-group" id="prototype-group"><summary><span>公開中の試作アプリも見る <small id="prototype-count">${prototypes.length}件</small></span><span class="prototype-hint">開発中のものは、こちらにまとめています。</span></summary><div class="tool-grid">${prototypes.map(toolCard).join("")}</div></details>` : ""}`;
+  filterTools();
+}
+
+function filterTools() {
+  const query = (document.getElementById("tool-search")?.value || "").normalize("NFKC").toLocaleLowerCase("ja").trim();
+  const words = query.split(/\s+/).filter(Boolean);
+  let readyCount = 0, prototypeCount = 0;
+  for (const t of visibleTools()) {
+    const haystack = [t.name, t.repo, t.summary, t.description, t.platform, ...(t.tags || [])].join(" ").normalize("NFKC").toLocaleLowerCase("ja");
+    const matches = (activeToolFilter === "all" || (t.audiences || []).includes(activeToolFilter)) && words.every((word) => haystack.includes(word));
+    const card = document.querySelector(`[data-tool="${t.repo}"]`);
+    if (card) card.hidden = !matches;
+    if (matches) t.stage === "prototype" ? prototypeCount++ : readyCount++;
+  }
+  const count = document.getElementById("tool-result-count");
+  if (count) count.textContent = `${readyCount}件のアプリ${prototypeCount ? `・試作 ${prototypeCount}件` : ""}`;
+  const prototypes = document.getElementById("prototype-group");
+  if (prototypes) {
+    prototypes.hidden = prototypeCount === 0;
+    if (query) prototypes.open = prototypeCount > 0;
+    const prototypeLabel = document.getElementById("prototype-count");
+    if (prototypeLabel) prototypeLabel.textContent = `${prototypeCount}件`;
+  }
+  const empty = document.getElementById("catalog-empty");
+  if (empty) empty.hidden = readyCount + prototypeCount !== 0;
+}
+
+function bindCatalogInteractions() {
+  const search = document.getElementById("tool-search");
+  search?.addEventListener("input", filterTools);
+  const filters = [...document.querySelectorAll("[data-tool-filter]")];
+  const chooseFilter = (value) => {
+    activeToolFilter = value;
+    filters.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.toolFilter === value)));
+    filterTools();
+  };
+  filters.forEach((button) => button.addEventListener("click", () => chooseFilter(button.dataset.toolFilter)));
+  document.getElementById("clear-tool-filters")?.addEventListener("click", () => {
+    search.value = "";
+    chooseFilter("all");
+    search.focus();
+  });
+  const dialog = document.getElementById("screen-dialog");
+  let opener = null;
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-screen]");
+    if (!button || !dialog) return;
+    const t = visibleTools().find((tool) => tool.repo === button.dataset.screen);
+    if (!t?.screenshot) return;
+    opener = button;
+    document.getElementById("screen-dialog-title").textContent = t.name;
+    document.getElementById("screen-dialog-caption").textContent = t.screenshotLabel || "実際の操作画面";
+    const img = document.getElementById("screen-dialog-image");
+    img.src = t.screenshot;
+    img.alt = `${t.name}：${t.screenshotLabel || "操作画面"}`;
+    document.getElementById("screen-original-link").href = t.screenshot;
+    const link = document.getElementById("screen-dialog-link");
+    link.href = t.url;
+    link.dataset.toolId = t.repo;
+    link.textContent = t.cta || "アプリを開く";
+    dialog.showModal();
+    document.querySelector(".screen-dialog-image").scrollTop = 0;
+  });
+  document.getElementById("screen-dialog-close")?.addEventListener("click", () => dialog.close());
+  dialog?.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
+  dialog?.addEventListener("close", () => { if (opener?.isConnected) opener.focus(); });
 }
 
 function renderContact() {
@@ -402,7 +384,7 @@ async function renderProfile() {
   document.getElementById("profile-links").innerHTML = links.join("");
 
   document.getElementById("footer-line").textContent =
-    `© ${new Date().getFullYear()} ${nameJa} — 業績・経歴データは researchmap から自動取得しています`;
+    `© ${new Date().getFullYear()} ${SITE_CONFIG.siteName} — 研究情報は researchmap から取得`;
 }
 
 async function renderKeywords() {
@@ -551,13 +533,10 @@ function setCommunityStatus(message) {
 }
 
 function renderTopicTabs() {
-  const tabs = document.getElementById("topic-tabs");
-  if (!tabs) return;
-  tabs.innerHTML = visibleTools().map((tool) => `
-    <button type="button" role="tab" data-topic="${esc(tool.repo)}"
-      aria-selected="${tool.repo === COMMUNITY.activeTool ? "true" : "false"}">
-      ${esc(tool.name)}
-    </button>`).join("");
+  const select = document.getElementById("topic-select");
+  if (!select) return;
+  select.innerHTML = visibleTools().map((tool) => `<option value="${esc(tool.repo)}">${esc(tool.name)}${tool.stage === "prototype" ? "（試作中）" : ""}</option>`).join("");
+  select.value = COMMUNITY.activeTool;
 }
 
 function formatCommentDate(timestamp) {
@@ -649,9 +628,8 @@ async function deleteComment(commentId) {
 function selectTopic(toolId) {
   if (!visibleTools().some((tool) => tool.repo === toolId)) return;
   COMMUNITY.activeTool = toolId;
-  document.querySelectorAll("[data-topic]").forEach((button) => {
-    button.setAttribute("aria-selected", String(button.dataset.topic === toolId));
-  });
+  const select = document.getElementById("topic-select");
+  if (select) select.value = toolId;
   renderComments();
 }
 
@@ -747,6 +725,7 @@ async function submitComment(event) {
 }
 
 function bindPlazaInteractions() {
+  document.getElementById("topic-select")?.addEventListener("change", (event) => selectTopic(event.target.value));
   document.addEventListener("click", (event) => {
     const commentDelete = event.target.closest("[data-comment-delete]");
     if (commentDelete?.dataset.commentDelete) {
@@ -763,8 +742,6 @@ function bindPlazaInteractions() {
       document.getElementById("community")?.scrollIntoView({ behavior: "smooth" });
     }
 
-    const topic = event.target.closest("[data-topic]");
-    if (topic) selectTopic(topic.dataset.topic);
   });
 
   const textarea = document.getElementById("comment-text");
@@ -1036,6 +1013,7 @@ async function renderAdminPanel() {
 renderInterests();
 renderNews();
 renderTools();
+bindCatalogInteractions();
 refreshReleaseInfo();
 renderContact();
 initCommunity().catch((e) => console.error(e));

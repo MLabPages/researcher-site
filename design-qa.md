@@ -1,42 +1,51 @@
-# Design QA
+# M-Lab クラフト広場 — Design QA
 
-## Comparison target
+検証日: 2026-09-05
+結果: ローカルの描画・主要操作・レスポンシブ検証は合格。公開反映は完了報告を参照。
 
-- Source visual truth: `C:\Users\mkn09\.codex\generated_images\019f65de-c903-7bf1-9a5e-9dcab15b68ca\exec-360a8dad-d8fc-415c-8b15-90080c1889e8.png`
-- Intended viewport: desktop `1440 × 1024`, plus mobile responsiveness.
-- Implementation: the static M-Lab ツール広場 in this repository.
+## 比較対象
 
-## Evidence
+デザイン検討ではトップ、一覧、交流・フッターの3枚を作成。1536 × 1024の実ブラウザ描画と比較し、390 × 844のモバイルも確認した。検討画像のアプリUIや数値は採用せず、実際のアプリの撮影画面へ置き換えた。
 
-- Source visual was inspected in the design-selection step.
-- The implementation could not be captured in the in-app browser: the local HTTP URL was refused, and `file://` access was blocked by the browser security policy.
-- Static verification passed: `node --check app.js`, `node --check data.js`, `git diff --check`, and all newly referenced image assets exist.
+## Fidelity ledger
 
-## Required fidelity surfaces
+| 観点 | 実装・確認結果 | 判断 |
+|---|---|---|
+| 情報の主従 | 左に「小さな工夫を、毎日の力に。」、右に卒論チェックの実画面 | 合格 |
+| 文字 | 日本語サンセリフ、太い見出し、短い紹介文。モバイルは1列で自然に折り返す | 合格 |
+| 余白・配置 | 広いトップ、3列→2列→1列の作品一覧。枠は画像に留め、アプリごとの大きな囲みをなくす | 合格 |
+| 色 | アイボリー #f8f7f2、深緑 #173f43。アクセントは文字の読みやすさを優先した #be492d | 合格 |
+| 画像 | すべて実画面。撮影用の架空の提出物・候補はキャプションで明記。元画像も開ける | 合格 |
+| 探しやすさ | 4用途、キーワード、件数、0件時のリセット。試作は独立した折りたたみ | 合格 |
+| 交流 | コンパクトなアプリ選択欄と既存コメント機能。未接続時に架空の投稿・集計値を見せない | 合格 |
+| 下部 | 最新3件のお知らせ、過去分の展開、プロフィールの展開、簡潔なフッター | 合格 |
 
-- Fonts and typography: pending browser-rendered comparison.
-- Spacing and layout rhythm: pending browser-rendered comparison.
-- Colors and visual tokens: implemented with the selected deep teal, coral, ochre, and paper-texture hero asset; pending rendered comparison.
-- Image quality and asset fidelity: generated paper-festival hero asset and real main-screen captures for thesis checking and AR were added; pending rendered comparison.
-- Copy and content: hero adds `新しい実験ツールを、続々展示中`; card previews now prioritize each tool's main function.
+## 比較中に修正した項目
 
-## Findings
+- 仮の画面図を廃止し、成果や操作が見える実画面へ差し替えた。
+- 提出物の空のプレビューは、架空の資料を実際に表示した画面で撮り直した。
+- Classroomレビューアは実際の縮小操作で資料と提出物一覧が重ならない表示を撮影。
+- 概念・尺度アトラスは初期画面ではなく、概念を選んで候補を作った結果を撮影。
+- リアクションメーターは同意説明だけの画面から計測画面へ変更。カメラ映像は取得しない。
+- 「感想・質問」から移動したときに掲示板の選択値も同期するよう修正。
+- 長い投稿者名が小さい画面ではみ出さないように修正。
+- 意図的な差異: 生成案の架空の評価・グラフ・人物名は実装しない。初期状態とサンプル状態を正確に表示する。
 
-- [P1] Browser-rendered comparison is unavailable.
-  - Location: local browser preview.
-  - Evidence: local HTTP access was refused and local-file navigation was blocked by the browser policy.
-  - Impact: desktop/mobile visual fidelity and primary interactions cannot be claimed as verified.
-  - Fix: open the changed site from a browser-accessible preview or after the user authorizes a deployment, then capture desktop and mobile states and rerun this QA.
+## 自動検証
 
-## Implementation checklist
+- nodeによる app.js / data.js の構文確認と git diff --check。
+- 既存の公開アプリ6件・公開試作3件・README9リンクの保持。
+- 用途4種類、全角検索、複数語検索、0件表示、クリアとフォーカス。
+- 9アプリの画像読込・拡大・アプリリンク／元画像リンクの一致・Escape・閉じる・背景クリック・フォーカス復帰。
+- 掲示板の話題切替とカードからの同期、500文字カウント、長い表示名・本文、HTMLのテキスト表示。
+- 過去のお知らせ、プロフィール・問い合わせの展開。
+- Firebase設定をテスト時のみ外して、準備中表示・ログイン無効・一覧継続を確認。
+- 1536 / 1024 / 768 / 390 / 320pxで横はみ出しなし。ページのJavaScript例外なし。
 
-- [x] Add the selected paper-festival hero direction.
-- [x] Add main-function previews and labels to cards.
-- [x] Check JavaScript syntax, asset paths, and whitespace errors.
-- [ ] Capture and compare rendered desktop/mobile pages.
+## 実環境の確認と限界
 
-## Comparison history
+ローカルHTTPページを実ブラウザでも開き、名称・検索結果・PDF整理画面の拡大を確認した。スマートフォンは画面幅を再現したブラウザ検証で、実機の確認ではない。
 
-1. Initial pass: blocked before visual comparison because a local browser-rendered implementation could not be captured.
+Firebaseへの実際のログイン・投稿・削除、各Windowsアプリのインストール、カメラ測定は今回のサイト更新では行っていない。これらは既存機能を維持している。
 
-final result: blocked
+作業用の撮影サーバーと仮データ・自動確認用ファイルは公開ファイルに含めない。
