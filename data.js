@@ -72,6 +72,14 @@ const SITE_CONFIG = {
       text: "論文PDFファイル名整理ツールをWindowsアプリとして公開しました。PDF本体はPC内で扱い、確認した候補だけを安全に整理・元に戻せます。",
     },
     {
+      date: "2026-08-14",
+      text: "提出物連続確認ツールを v1.6.1 に更新しました。JPEG画像のピンチイン・ピンチアウトに対応しています。",
+    },
+    {
+      date: "2026-08-11",
+      text: "Classroom提出物レビューア（CRW）を v0.9.9 に更新しました。",
+    },
+    {
       date: "2026-07-26",
       text: "提出物連続確認ツールが画像・Excel・OpenDocumentなどに対応しました。未対応形式も一覧から消さず、見落としを防ぎます。",
     },
@@ -206,8 +214,8 @@ const SITE_CONFIG = {
       privacyDetail: "提出物は利用者のPC上で扱います。",
       cta: "導入方法を見る",
       // GitHub Releaseから自動取得できないときの表示値。releaseSync: true で公開時に最新Releaseへ更新します。
-      version: "v0.9.2",
-      updatedAt: "2026-08-03",
+      version: "v0.9.9",
+      updatedAt: "2026-08-11",
       releaseSync: true,
     },
     {
@@ -227,8 +235,8 @@ const SITE_CONFIG = {
       privacyHighlight: "提出物を送らず、PC上で連続確認",
       privacyDetail: "提出物は外部へ送信せず、利用者のWindows PC上で処理します。",
       cta: "Windows版をダウンロード",
-      version: "v1.5.0",
-      updatedAt: "2026-07-30",
+      version: "v1.6.1",
+      updatedAt: "2026-08-14",
       releaseSync: true,
     },
     {
