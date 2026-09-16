@@ -60,6 +60,10 @@ const SITE_CONFIG = {
   // 上に書いたものほど先に表示。古いものは消してOK。
   news: [
     {
+      date: "2026-09-16",
+      text: "SeeReact（iPhone）をApp Storeで公開しました。場面と表情・視線の反応を端末内で記録できます。",
+    },
+    {
       date: "2026-09-05",
       text: "M-Lab クラフト広場として、アプリを探しやすくリニューアルしました。実際の画面の拡大表示と、用途・キーワード検索が使えます。",
     },
@@ -315,6 +319,24 @@ const SITE_CONFIG = {
       version: "v0.1.1",
       updatedAt: "2026-09-02",
       releaseSync: true,
+    },
+    {
+      show: true,
+      repo: "view-pulse-ios",
+      name: "SeeReact",
+      url: "https://apps.apple.com/jp/app/seereact/id6795166917",
+      description:
+        "外カメラで見ていた場面と、内カメラの表情・視線を、iPhone内で同時に記録するアプリです。視線ヒートマップや反応のタイムライン、表情付き動画で振り返り、分析データも書き出せます。医療・診断目的ではありません。",
+      tags: ["iPhoneアプリ", "計測", "App Store"],
+      category: "計測・可視化",
+      audiences: ["measurement"],
+      platform: "iPhoneアプリ",
+      summary: "場面と表情・視線の反応を、iPhone内だけで同時に記録して振り返る。",
+      screenshot: "assets/seereact-craft.png",
+      screenshotLabel: "撮影方法を選ぶホーム画面",
+      privacyHighlight: "撮影データは端末内、共有は選んだときだけ",
+      privacyDetail: "表情・視線の推定はiPhone内で行います。デベロッパはアプリからデータを収集しません。",
+      cta: "App Storeで見る",
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {
