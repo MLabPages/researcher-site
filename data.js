@@ -60,6 +60,10 @@ const SITE_CONFIG = {
   // 上に書いたものほど先に表示。古いものは消してOK。
   news: [
     {
+      date: "2026-10-15",
+      text: "鼻歌からメロディーと伴奏を育てる音楽スケッチアプリ「たねメロ」を掲載しました。録音・採譜は端末内で処理します。",
+    },
+    {
       date: "2026-09-29",
       text: "グループ抽選ツールを更新しました。数字のグループ番号、余った人の配分、列の埋め方に対応しています。",
     },
@@ -339,6 +343,24 @@ const SITE_CONFIG = {
       privacyHighlight: "撮影データは端末内、共有は選んだときだけ",
       privacyDetail: "表情・視線の推定はiPhone内で行います。デベロッパはアプリからデータを収集しません。",
       cta: "App Storeで見る",
+    },
+    {
+      show: true,
+      repo: "tanemelo",
+      name: "たねメロ",
+      url: "https://tanemelo.pages.dev/",
+      description:
+        "鼻歌や口笛からメロディーを採譜し、五線譜やピアノロールで編集できる音楽スケッチアプリです。自分のメロディーにコードや簡易伴奏を付けて聞き返し、MIDIやWAVなどで書き出せます。録音音声と採譜処理は端末内で扱います。",
+      tags: ["Webアプリ", "音楽", "作曲", "鼻歌"],
+      category: "音楽・創作",
+      audiences: ["education"],
+      platform: "Webアプリ",
+      summary: "鼻歌をメロディーにして、自分の音に伴奏を付けて楽しむ。",
+      screenshot: "assets/tanemelo-craft.png",
+      screenshotLabel: "サンプルメロディーのピアノロールと伴奏設定",
+      imagePosition: "center top",
+      privacyHighlight: "録音・採譜は端末内で完結",
+      privacyDetail: "録音音声は利用中のブラウザ内に保存し、外部の解析APIへ送信せず端末内で採譜します。",
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {
