@@ -609,6 +609,10 @@ a:hover { opacity: 1; }
 .form-message { font-size: 12px; }
 .news-section { padding-bottom: 36px; }
 .news-section h2 { margin: 0 0 12px; font-size: 20px; }
+.site-about { padding: 4px 0 32px; }
+.site-about h2 { margin: 0 0 14px; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.5; }
+.site-about p { margin: 0 0 0.85em; max-width: 46em; font-size: 14px; line-height: 1.95; overflow-wrap: anywhere; }
+.site-about p:last-child { margin-bottom: 0; }
 .news-list li { gap: 28px; border-bottom: 1px solid var(--color-border); padding: 12px 0; font-size: 13px; }
 .news-date { font-size: 12px; }
 .news-archive > summary { cursor: pointer; font-size: 13px; padding-block: 14px; }
@@ -697,6 +701,9 @@ html:has(.screen-dialog[open]) { overflow: hidden; }
   #topic-select { font-size: 16px; }
   .comment-form textarea { font-size: 16px; }
   .news-list li { flex-direction: column; gap: 2px; }
+  .site-about { padding-bottom: 28px; }
+  .site-about h2 { font-size: 18px; }
+  .site-about p { font-size: 14px; }
   .about-drawer > summary { align-items: flex-start; flex-direction: column; gap: 4px; font-size: 16px; }
   .about-drawer > summary small { font-size: 11px; }
   .footer-inner { align-items: flex-start; }
