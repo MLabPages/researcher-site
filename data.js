@@ -61,7 +61,7 @@ const SITE_CONFIG = {
   news: [
     {
       date: "2026-11-10",
-      text: "英語の論文PDFをレイアウトを保ったまま日本語で読めるWindowsアプリ「PLaMo論文リーダー」を掲載しました。翻訳はPC内のPLaMo 3 Translateで行い、論文を外部に送りません。",
+      text: "英語の論文PDFをレイアウトを保ったまま日本語で読めるWindowsアプリ「PLaMo論文リーダー」を公開しました。インストーラーで導入でき、翻訳はPC内のPLaMo 3 Translateで行うため論文を外部に送りません。",
     },
     {
       date: "2026-10-15",
@@ -370,7 +370,7 @@ const SITE_CONFIG = {
       show: true,
       repo: "plamo-babeldoc",
       name: "PLaMo論文リーダー",
-      url: "https://github.com/MLabPages/plamo-babeldoc#導入windows-10--11",
+      url: "https://github.com/MLabPages/plamo-babeldoc/releases/latest",
       description:
         "英語の論文PDFを、図や段組を保ったまま日本語に訳して読むWindowsアプリです。PC内で動くPLaMo 3 Translate（Built with PLaMo）とBabelDOCを使い、訳文PDF・対訳PDFに加えて、段落ごとに原文を確認できる読書モードと日本語の読み上げを備えています。必要に応じてDeepLやGeminiなどのクラウド翻訳にも切り替えられます。",
       tags: ["Windows", "研究ツール", "論文", "翻訳", "読み上げ"],
@@ -383,7 +383,10 @@ const SITE_CONFIG = {
       imagePosition: "center top",
       privacyHighlight: "PLaMoなら論文を外部に送らずPC内で翻訳",
       privacyDetail: "PLaMoでの翻訳はPC内で完結します。クラウド翻訳を選んだときだけ本文を各社へ送り、データの扱いを画面に表示します。",
-      cta: "導入方法を見る",
+      cta: "Windows版をダウンロード",
+      version: "v1.0.0",
+      updatedAt: "2026-11-10",
+      releaseSync: true,
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {
