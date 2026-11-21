@@ -623,6 +623,9 @@ a:hover { opacity: 1; }
 .site-about h2 { margin: 0 0 14px; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.5; }
 .site-about p { margin: 0 0 0.85em; max-width: 46em; font-size: 14px; line-height: 1.95; overflow-wrap: anywhere; }
 .site-about p:last-child { margin-bottom: 0; }
+@media (min-width: 701px) {
+  .site-about p { max-width: none; text-wrap: balance; }
+}
 .news-list li { gap: 28px; border-bottom: 1px solid var(--color-border); padding: 12px 0; font-size: 13px; }
 .news-date { font-size: 12px; }
 .news-archive > summary { cursor: pointer; font-size: 13px; padding-block: 14px; }
