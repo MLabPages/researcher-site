@@ -535,13 +535,15 @@ a:hover { opacity: 1; }
 .tool-screen figcaption { padding-top: 7px; font-size: 11px; color: var(--color-text-soft); line-height: 1.6; }
 .featured-tool .tool-screen figcaption { font-size: 11px; }
 .tools-section { padding-top: 50px; }
-.articles-section { margin-top: 48px; padding: 24px; background: var(--color-accent-soft); border-radius: var(--radius); }
+.articles-section { margin-top: 28px; padding: 24px; background: var(--color-accent-soft); border-radius: var(--radius); }
 .articles-section .section-heading-row p { font-size: 14px; margin: 8px 0 0; }
 .article-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
-.article-card { padding: 18px 20px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; }
-.article-card h3 { margin: 0; font-size: 18px; line-height: 1.5; }
-.article-card a { color: var(--color-accent); }
-.article-card a:hover { color: var(--color-coral); }
+.article-card { display: grid; min-width: 0; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 6px; }
+.article-card-link { display: block; border-radius: inherit; color: var(--color-accent); text-decoration: none; }
+.article-thumbnail { display: block; width: 100%; height: auto; border-radius: 5px 5px 0 0; }
+.article-copy { padding: 14px 18px 18px; }
+.article-card h3 { margin: 0; font-size: 18px; line-height: 1.5; text-decoration: underline; }
+.article-card-link:hover h3 { color: var(--color-coral); }
 .article-card p { margin: 7px 0 0; font-size: 14px; color: var(--color-text-soft); }
 .section-heading-row { display: flex; justify-content: space-between; align-items: center; gap: 32px; }
 .section-heading-row h2 { margin: 0; font-size: clamp(25px, 2.5vw, 34px); letter-spacing: -.03em; line-height: 1.5; }
@@ -684,8 +686,13 @@ html:has(.screen-dialog[open]) { overflow: hidden; }
   .featured-copy h2 { font-size: 18px; }
   .featured-copy p { font-size: 12px; }
   .tools-section { padding-top: 32px; }
-  .articles-section { margin-top: 32px; padding: 18px; }
+  .articles-section { margin-top: 24px; padding: 14px; }
   .article-grid { grid-template-columns: 1fr; gap: 10px; }
+  .article-card-link { display: grid; grid-template-columns: minmax(0, 32%) minmax(0, 1fr); align-items: start; gap: 12px; padding: 12px; }
+  .article-thumbnail { border-radius: 4px; }
+  .article-copy { padding: 0; }
+  .article-card h3 { font-size: 15px; }
+  .article-card p { margin-top: 4px; font-size: 13px; line-height: 1.6; }
   .section-heading-row { flex-direction: column; align-items: stretch; gap: 20px; }
   .section-heading-row h2 { font-size: 26px; }
   #tools-lead { font-size: 12px; }

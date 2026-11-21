@@ -220,8 +220,13 @@ function renderTools() {
 function renderArticles() {
   document.getElementById("article-grid").innerHTML = SITE_CONFIG.articles.map((article) => `
     <article class="article-card">
-      <h3><a class="tool-open" data-tool-id="${esc(article.repo)}" href="${esc(article.url)}" target="_blank" rel="noopener">${esc(article.name)} <span aria-hidden="true">↗</span></a></h3>
-      <p>${esc(article.description)}</p>
+      <a class="article-card-link tool-open" data-tool-id="${esc(article.repo)}" href="${esc(article.url)}" target="_blank" rel="noopener" aria-labelledby="article-title-${esc(article.repo)}">
+        <img class="article-thumbnail" src="${esc(article.thumbnail)}" alt="" width="800" height="450" loading="lazy" decoding="async">
+        <div class="article-copy">
+          <h3 id="article-title-${esc(article.repo)}">${esc(article.name)} <span aria-hidden="true">↗</span></h3>
+          <p>${esc(article.description)}</p>
+        </div>
+      </a>
     </article>`).join("");
 }
 

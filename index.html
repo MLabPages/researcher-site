@@ -11,7 +11,7 @@
   <meta property="og:title" content="M-Lab クラフト広場">
   <meta property="og:description" content="授業や研究から生まれたアプリを試し、AIを活用して毎日更新する読みものを楽しめる広場です。">
   <meta property="og:url" content="https://mlabpages.github.io/researcher-site/">
-  <link rel="stylesheet" href="styles.css?v=20261121-1">
+  <link rel="stylesheet" href="styles.css?v=20261121-2">
 </head>
 <body>
   <a class="skip-link" href="#tools">アプリ一覧へ進む</a>
@@ -41,6 +41,16 @@
       <article class="featured-tool" id="featured-tool" aria-labelledby="featured-title"></article>
     </section>
 
+    <section class="articles-section wide-container" id="articles" aria-labelledby="articles-heading">
+      <div class="section-heading-row">
+        <div>
+          <h2 id="articles-heading">役立つ知識記事</h2>
+          <p>AIを活用して毎日更新する読みものです。</p>
+        </div>
+      </div>
+      <div class="article-grid" id="article-grid"></div>
+    </section>
+
     <section class="tools-section wide-container" id="tools" aria-labelledby="tools-heading">
       <div class="section-heading-row">
         <div>
@@ -60,16 +70,6 @@
       </div>
       <div class="tool-groups" id="tool-grid"></div>
       <div class="catalog-empty" id="catalog-empty" hidden><p>条件に合うアプリは見つかりませんでした。</p><button class="text-link" id="clear-tool-filters" type="button">検索条件をクリア</button></div>
-    </section>
-
-    <section class="articles-section wide-container" id="articles" aria-labelledby="articles-heading">
-      <div class="section-heading-row">
-        <div>
-          <h2 id="articles-heading">役立つ知識記事</h2>
-          <p>AIを活用して毎日更新する読みものです。</p>
-        </div>
-      </div>
-      <div class="article-grid" id="article-grid"></div>
     </section>
 
     <section class="activity-strip wide-container" aria-live="polite">
@@ -177,8 +177,8 @@
     </div>
   </dialog>
 
-  <script src="data.js?v=20261121-1"></script>
+  <script src="data.js?v=20261121-2"></script>
   <script src="firebase-config.js"></script>
-  <script src="app.js?v=20261121-1"></script>
+  <script src="app.js?v=20261121-2"></script>
 </body>
 </html>

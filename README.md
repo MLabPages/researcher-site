@@ -21,7 +21,7 @@
 | 対応環境の表示 | `platform` |
 | 操作画面とその説明 | `screenshot` / `screenshotLabel` |
 | トップで紹介するアプリ | `featuredRepo` / 各アプリの `featuredCopy` |
-| 知識記事サイトの名前・説明・リンク | `articles:` の `name` / `description` / `url` |
+| 知識記事サイトの名前・説明・リンク・サムネイル | `articles:` の `name` / `description` / `url` / `thumbnail`（800×450 の画像） |
 | 関心テーマの内容 | `interests:` の `items` |
 | 問い合わせフォームのURL | `contact.googleFormUrl` |
 
