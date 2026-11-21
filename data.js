@@ -388,23 +388,6 @@ const SITE_CONFIG = {
       updatedAt: "2026-11-21",
       releaseSync: true,
     },
-    {
-      show: true,
-      repo: "design-antenna",
-      name: "デザインアンテナ",
-      url: "https://mlabpages.github.io/design-antenna/",
-      description:
-        "スライドや研究のウェブサイトをつくる人に向けて、デザインの知識を短い一篇にして毎日ひとつ公開するWebサイトです。各回は個人の学習まとめとして、説明、具体例、今日から使えるひとこと、出典を載せ、第1回（2026年11月15日）はゲシュタルト原則の「近接の法則」です。",
-      tags: ["Webアプリ", "デザイン", "学習"],
-      category: "学習サポート",
-      audiences: ["education", "research"],
-      platform: "Webアプリ",
-      summary: "スライドや研究サイト向けに、デザインの知識を一日ひとつ読む。",
-      screenshot: "assets/design-antenna-craft.png",
-      screenshotLabel: "第1回「近接の法則」が並ぶ目次",
-      privacyHighlight: "閲覧のみで、入力は送りません",
-      privacyDetail: "記事の閲覧だけで、入力した内容の送信やアカウント登録はありません。",
-    },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
     {
       show: false,
@@ -421,6 +404,28 @@ const SITE_CONFIG = {
       url: "https://mlabpages.github.io/group_test/",
       description: "（お試し用。表示する場合は説明文を書いてください）",
       tags: [],
+    },
+  ],
+
+  // ---- 役立つ知識記事 ----
+  articles: [
+    {
+      repo: "design-antenna",
+      name: "デザインアンテナ",
+      url: "https://design-antenna.mlabcraft.com/",
+      description: "スライドやウェブサイトづくりに使えるデザインの知識を、具体例と出典つきで一日ひとつ。",
+    },
+    {
+      repo: "affordance-zukan",
+      name: "アフォーダンス図鑑",
+      url: "https://affordance-zukan.mlabcraft.com/",
+      description: "身近な道具や空間がどんな行動を促すのか、日常の実例を図とともに一日ひとつ。",
+    },
+    {
+      repo: "ohiru-howa",
+      name: "お昼のひとこと法話集",
+      url: "https://ohiru-howa.mlabcraft.com/",
+      description: "日々の出来事を仏教の視点から見つめる、短い法話を一日ひとつ。",
     },
   ],
 

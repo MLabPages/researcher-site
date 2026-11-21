@@ -217,6 +217,14 @@ function renderTools() {
   filterTools();
 }
 
+function renderArticles() {
+  document.getElementById("article-grid").innerHTML = SITE_CONFIG.articles.map((article) => `
+    <article class="article-card">
+      <h3><a class="tool-open" data-tool-id="${esc(article.repo)}" href="${esc(article.url)}" target="_blank" rel="noopener">${esc(article.name)} <span aria-hidden="true">↗</span></a></h3>
+      <p>${esc(article.description)}</p>
+    </article>`).join("");
+}
+
 function filterTools() {
   const query = (document.getElementById("tool-search")?.value || "").normalize("NFKC").toLocaleLowerCase("ja").trim();
   const words = query.split(/\s+/).filter(Boolean);
@@ -535,7 +543,9 @@ function setCommunityStatus(message) {
 function renderTopicTabs() {
   const select = document.getElementById("topic-select");
   if (!select) return;
-  select.innerHTML = visibleTools().map((tool) => `<option value="${esc(tool.repo)}">${esc(tool.name)}${tool.stage === "prototype" ? "（試作中）" : ""}</option>`).join("");
+  const options = (entries) => entries.map((entry) => `<option value="${esc(entry.repo)}">${esc(entry.name)}${entry.stage === "prototype" ? "（試作中）" : ""}</option>`).join("");
+  select.innerHTML = `<optgroup label="アプリ">${options(visibleTools())}</optgroup>
+    <optgroup label="読みもの">${options(SITE_CONFIG.articles)}</optgroup>`;
   select.value = COMMUNITY.activeTool;
 }
 
@@ -626,7 +636,7 @@ async function deleteComment(commentId) {
 }
 
 function selectTopic(toolId) {
-  if (!visibleTools().some((tool) => tool.repo === toolId)) return;
+  if (![...visibleTools(), ...SITE_CONFIG.articles].some((entry) => entry.repo === toolId)) return;
   COMMUNITY.activeTool = toolId;
   const select = document.getElementById("topic-select");
   if (select) select.value = toolId;
@@ -869,8 +879,8 @@ async function renderAdminPanel() {
     ]);
     if (!textRes.ok || !apiRes.ok) throw new Error("fetch failed");
     dataJsText = await textRes.text();
-    // このサイト自身のリポジトリは候補から除外する
-    repos = (await apiRes.json()).filter((r) => !r.private && !r.fork && r.name !== SITE_REPO);
+    const excludedRepos = new Set([SITE_REPO, ...SITE_CONFIG.articles.map((article) => article.repo)]);
+    repos = (await apiRes.json()).filter((r) => !r.private && !r.fork && !excludedRepos.has(r.name));
   } catch (e) {
     console.error(e);
     panel.querySelector(".admin-sub").textContent =
@@ -1013,6 +1023,7 @@ async function renderAdminPanel() {
 renderInterests();
 renderNews();
 renderTools();
+renderArticles();
 bindCatalogInteractions();
 refreshReleaseInfo();
 renderContact();
