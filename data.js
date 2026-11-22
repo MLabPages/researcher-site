@@ -384,8 +384,8 @@ const SITE_CONFIG = {
       privacyHighlight: "PLaMoなら論文を外部に送らずPC内で翻訳",
       privacyDetail: "PLaMoでの翻訳はPC内で完結します。クラウド翻訳を選んだときだけ本文を各社へ送り、データの扱いを画面に表示します。",
       cta: "Windows版をダウンロード",
-      version: "v1.0.3",
-      updatedAt: "2026-11-21",
+      version: "v1.0.4",
+      updatedAt: "2026-11-22",
       releaseSync: true,
     },
     // ↓ お試し・実験用のリポジトリ。研究者サイトに載せるものではない想定です（非表示のまま推奨）。
